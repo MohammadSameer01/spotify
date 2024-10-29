@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spotify</title>
+
+    <!-- <meta name="theme-color" content="#127eb4" /> -->
+    <meta name="theme-color" content="rgb(250, 0, 0)" />
+
+    <link rel="icon" href="assets/logo.png" />
+
+    <meta
+      name="description"
+      content="Listen to 'Cheques' by Shubh on our Spotify clone. Enjoy the best music experience with a sleek interface designed for music lovers."
+    />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <section>
+        <div class="mainContent">
+          <div class="header">
+            <div class="dropDown">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                <path
+                  d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                />
+              </svg>
+            </div>
+            <div class="headerTxtCnt">
+              <p>PLAYING FROM PLAYLIST</p>
+              <p>Liked Songs</p>
+            </div>
+            <div class="menuIcon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512">
+                <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                <path
+                  d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div class="mainImageCnt">
+            <img
+              src="https://c.saavncdn.com/704/Still-Rollin-Punjabi-2023-20230512121542-500x500.jpg"
+              alt="Cheques poster"
+              loading="lazy"
+            />
+          </div>
+          <div class="controlsCnt">
+            <div class="controlsTop">
+              <div class="titleAndSinger">
+                <p class="songTitle">Cheques</p>
+                <p class="singerTitle">Shubh</p>
+              </div>
+              <div class="likedSongCnt">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                  <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                  <path
+                    d="M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8l0-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5l0 3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20-.1-.1s0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5l0 3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2l0-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div class="rangeCnt">
+              <audio controls class="song">
+                <source src="assets/song.mp3" type="audio/mpeg" />
+              </audio>
+              <input type="range" value="0" id="progressBar" />
+              <div class="audioTimeCnt">
+                <span class="currTime">0:00</span>
+                <span class="totalTime">0:00</span>
+              </div>
+            </div>
+
+            <div class="buttonsCnt">
+              <div class="shuffleCnt">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                  <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                  <path
+                    d="M403.8 34.4c12-5 25.7-2.2 34.9 6.9l64 64c6 6 9.4 14.1 9.4 22.6s-3.4 16.6-9.4 22.6l-64 64c-9.2 9.2-22.9 11.9-34.9 6.9s-19.8-16.6-19.8-29.6l0-32-32 0c-10.1 0-19.6 4.7-25.6 12.8L284 229.3 244 176l31.2-41.6C293.3 110.2 321.8 96 352 96l32 0 0-32c0-12.9 7.8-24.6 19.8-29.6zM164 282.7L204 336l-31.2 41.6C154.7 401.8 126.2 416 96 416l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c10.1 0 19.6-4.7 25.6-12.8L164 282.7zm274.6 188c-9.2 9.2-22.9 11.9-34.9 6.9s-19.8-16.6-19.8-29.6l0-32-32 0c-30.2 0-58.7-14.2-76.8-38.4L121.6 172.8c-6-8.1-15.5-12.8-25.6-12.8l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c30.2 0 58.7 14.2 76.8 38.4L326.4 339.2c6 8.1 15.5 12.8 25.6 12.8l32 0 0-32c0-12.9 7.8-24.6 19.8-29.6s25.7-2.2 34.9 6.9l64 64c6 6 9.4 14.1 9.4 22.6s-3.4 16.6-9.4 22.6l-64 64z"
+                  />
+                </svg>
+              </div>
+              <div class="previousCnt">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                  <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                  <path
+                    d="M267.5 440.6c9.5 7.9 22.8 9.7 34.1 4.4s18.4-16.6 18.4-29l0-320c0-12.4-7.2-23.7-18.4-29s-24.5-3.6-34.1 4.4l-192 160L64 241 64 96c0-17.7-14.3-32-32-32S0 78.3 0 96L0 416c0 17.7 14.3 32 32 32s32-14.3 32-32l0-145 11.5 9.6 192 160z"
+                  />
+                </svg>
+              </div>
+              <div class="playPauseCnt">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                  <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                  <path
+                    d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80L0 432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"
+                  />
+                </svg>
+              </div>
+              <div class="nextBtnCnt">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                  <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                  <path
+                    d="M52.5 440.6c-9.5 7.9-22.8 9.7-34.1 4.4S0 428.4 0 416L0 96C0 83.6 7.2 72.3 18.4 67s24.5-3.6 34.1 4.4l192 160L256 241l0-145c0-17.7 14.3-32 32-32s32 14.3 32 32l0 320c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-145-11.5 9.6-192 160z"
+                  />
+                </svg>
+              </div>
+              <div class="repeatBtnCnt">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                  <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                  <path
+                    d="M0 224c0 17.7 14.3 32 32 32s32-14.3 32-32c0-53 43-96 96-96l160 0 0 32c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l64-64c12.5-12.5 12.5-32.8 0-45.3l-64-64c-9.2-9.2-22.9-11.9-34.9-6.9S320 19.1 320 32l0 32L160 64C71.6 64 0 135.6 0 224zm512 64c0-17.7-14.3-32-32-32s-32 14.3-32 32c0 53-43 96-96 96l-160 0 0-32c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-64 64c-12.5 12.5-12.5 32.8 0 45.3l64 64c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6l0-32 160 0c88.4 0 160-71.6 160-160z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div class="extraButtons">
+              <div class="devicesCnt">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#5f6368"
+                >
+                  <path
+                    d="M320-120v-80H160q-33 0-56.5-23.5T80-280v-480q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v80h-80v-80H160v480h280v160H320Zm286-180q0-39 27.5-66.5T700-394q39 0 66.5 27.5T794-300q0 39-27.5 66.5T700-206q-39 0-66.5-27.5T606-300Zm234-340q17 0 28.5 11.5T880-600v440q0 17-11.5 28.5T840-120H560q-17 0-28.5-11.5T520-160v-440q0-17 11.5-28.5T560-640h280Zm-140 40q-26 0-43 17t-17 43q0 26 17 43t43 17q26 0 43-17t17-43q0-26-17-43t-43-17Zm0 440q59 0 99.5-40.5T840-300q0-59-40.5-99.5T700-440q-59 0-99.5 40.5T560-300q0 59 40.5 99.5T700-160Z"
+                  />
+                </svg>
+              </div>
+
+              <div class="shareCnt">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#5f6368"
+                >
+                  <path
+                    d="M680-80q-50 0-85-35t-35-85q0-6 3-28L282-392q-16 15-37 23.5t-45 8.5q-50 0-85-35t-35-85q0-50 35-85t85-35q24 0 45 8.5t37 23.5l281-164q-2-7-2.5-13.5T560-760q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-24 0-45-8.5T598-672L317-508q2 7 2.5 13.5t.5 14.5q0 8-.5 14.5T317-452l281 164q16-15 37-23.5t45-8.5q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T720-200q0-17-11.5-28.5T680-240q-17 0-28.5 11.5T640-200q0 17 11.5 28.5T680-160ZM200-440q17 0 28.5-11.5T240-480q0-17-11.5-28.5T200-520q-17 0-28.5 11.5T160-480q0 17 11.5 28.5T200-440Zm480-280q17 0 28.5-11.5T720-760q0-17-11.5-28.5T680-800q-17 0-28.5 11.5T640-760q0 17 11.5 28.5T680-720Zm0 520ZM200-480Zm480-280Z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="otherStuff">
+          <div class="lyricsCnt">
+            <h3>Lyrics preview</h3>
+            <div class="songLyrics">
+              <p>
+                Je koyi shaq ni, (aan) karin check ni (drr) Biba jatt di aa
+                challe sardaari (challe sardaari)
+              </p>
+              <p>
+                Lagge jeck ni, wadde cheque ni Utte aale naal laayi betha yaari
+                (layi betha)
+              </p>
+              <div class="extraLyrics">
+                <p>
+                  Rakhi akh ni, vairi kakh ni (grrr) Game ghumdi aa bethe phone
+                  chak ni
+                </p>
+                <p>
+                  Piche jagg ni, laayi lagg ni (ah) Laggi kaiyan deyan utte tak
+                  agg ni
+                </p>
+                <p>
+                  Haan, kauda lagda subaah Puchi jara jaake naam challe
+                  than-than
+                </p>
+                <p>
+                  Jatt tan pehli malli betha than Agge kadde aa bhulekhe kayi
+                  wari, kayi wari (badi wari)
+                </p>
+                <p>
+                  Je koyi shaq ni kar check ni (aan) Biba jatt di aa challe
+                  sardari (challe)
+                </p>
+                <p>
+                  Lagge jeck ni (oh) wadde cheque ni Utte aale naal laayi betha-
+                  (laayi betha)
+                </p>
+                <p>
+                  Je koyi shaq ni kar check ni (aan) Biba jatt di aa challe
+                  sardari
+                </p>
+                <p>
+                  Lagge jeck ni wadde cheque ni (aan) Utte aale naal laayi betha
+                  yaari
+                </p>
+                <p>(ch-ch-challe sardari) (Laayi betha, laayi betha)</p>
+
+                <p>
+                  Jussa maarda ae tha-tha gabhru jawan da Tooti boldi ae jagg te
+                  zamana jaan da
+                </p>
+                <p>
+                  Sadda rutba hi dekh vairi seena sarhda Baba bina hi talawan
+                  janda guddi chaad da
+                </p>
+                <p>
+                  Jussa maarda ae tha-tha gabhru jawan da Tooti boldi ae jagg te
+                  zamana jaan da (brr) Sadda rutba hi dekh vairi seena sarhda
+                  Baba bina hi talawan janda guddi chaad da Tu na jaandi (na),
+                  karobar ni (eh-ha) Jaali number plate laggi car di (jaali)
+                  Saare yaar ni bethe bahar ni Kadde jaan ni jo lagga dabb naal
+                  ni Haan, face utte aa glow (aan) Puchi na tkaane saare rehnde
+                  aa ni low 1-2 copy karde flow Thande karte aa billo kahdi kiti
+                  kalakari
+                </p>
+                <p>
+                  Je koyi shaq ni, kar check ni Biba jatt di aa challe sardari
+                  (challe) Lagge jeck ni, wadde cheque ni (drr) Utte aale naal
+                  laayi betha yaari Je koyi shaq ni (aan), kar check ni Biba
+                  jatt di aa challe sardari Lagge jeck ni, wadde cheque ni Utte
+                  aale naal laayi betha yaari
+                </p>
+              </div>
+              <div class="lyricsSeeMoreBtn">Show lyrics</div>
+            </div>
+          </div>
+          <div class="authorCnt">
+            <div class="backImageCnt">
+              <p>About the artist</p>
+            </div>
+            <div class="about">
+              <div class="artistCnt">
+                <div class="artistName">Shubh</div>
+                <div class="artistFollowers">1.3Cr monthly listners</div>
+              </div>
+              <div class="followCnt">
+                <div class="followBtn">Follow</div>
+              </div>
+            </div>
+            <div class="artistBio">
+              Shubhneet Singh, known professionally as Shubh, is an Indian
+              rapper-singer and songwriter based in Canada associated with
+              Punjabi music.
+            </div>
+          </div>
+          <div class="modal">
+            <p>Ye sabb karne k liye premium lena padega...</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      let addToFavBtn = document.querySelector(".likedSongCnt");
+      let isFav = false;
+      addToFavBtn.addEventListener("click", () => {
+        if (!isFav) {
+          addToFavBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ff0000" d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/></svg>`;
+
+          isFav = true;
+          addToFavBtn.classList.add("favourited");
+          addToFavBtn.classList.remove("disliked");
+        } else {
+          addToFavBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8l0-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5l0 3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20-.1-.1s0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5l0 3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2l0-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z"/></svg>`;
+
+          isFav = false;
+          addToFavBtn.classList.add("disliked");
+          addToFavBtn.classList.remove("favourited");
+        }
+      });
+
+      let followBtn = document.querySelector(".followBtn");
+      let artistFollowers = document.querySelector(".artistFollowers");
+
+      followBtn.addEventListener("click", () => {
+        followBtn.innerText = "Following";
+        artistFollowers.innerText = `2B monthly listners`;
+      });
+    </script>
+    <script>
+      let lyricsSeeMoreBtn = document.querySelector(".lyricsSeeMoreBtn");
+      let lyricsCnt = document.querySelector(".lyricsCnt");
+      let lyricsHeading = document.querySelector(".lyricsCnt h3");
+      let songLyrics = document.querySelector(".songLyrics");
+      let extraLyrics = document.querySelector(".extraLyrics");
+
+      lyricsSeeMoreBtn.addEventListener("click", () => {
+        lyricsCnt.classList.add("fullPageLyrics");
+        lyricsSeeMoreBtn.style.display = "none";
+        lyricsHeading.style.cssText = "display:none";
+        extraLyrics.style.display = "unset";
+
+        let closeBtn = document.createElement("div");
+        closeBtn.innerText = "close";
+        closeBtn.setAttribute("class", "closeButtonClass");
+        lyricsCnt.prepend(closeBtn);
+
+        closeBtn.addEventListener("click", () => {
+          lyricsCnt.classList.remove("fullPageLyrics");
+          lyricsSeeMoreBtn.style.display = "";
+          lyricsHeading.style.cssText = "";
+          closeBtn.style.display = "none";
+          extraLyrics.style.display = "none";
+        });
+      });
+    </script>
+    <script>
+      let allButtons = document.querySelectorAll(".buttonsCnt div");
+      let modal = document.querySelector(".modal");
+
+      let dropDown = document.querySelector(".dropDown");
+      let menuIcon = document.querySelector(".menuIcon");
+      dropDown.addEventListener("click", displayModal);
+      menuIcon.addEventListener("click", displayModal);
+
+      allButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          if (!button.classList.contains("playPauseCnt")) {
+            displayModal();
+          }
+        });
+      });
+
+      function displayModal() {
+        modal.classList.add("showModal");
+        setTimeout(() => {
+          modal.classList.remove("showModal");
+        }, 3000);
+      }
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>
