@@ -328,7 +328,8 @@ main > section {
 
 @media screen and (min-width: 650px) {
   body {
-    background: linear-gradient(var(--color1), #0c557a, #041e2c);
+    /* background: linear-gradient(var(--color1), #0c557a, #041e2c); */
+    background: var(--color1);
   }
   .header {
     z-index: 1;
