@@ -1,0 +1,104 @@
+main {
+  padding: 12px;
+}
+
+.listsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.list {
+  height: 60px;
+  width: calc(50% - 2px);
+  display: flex;
+  align-items: center;
+  padding: 6px;
+}
+.listIcon {
+  height: 100%;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.listIcon img {
+  height: 100%;
+  object-fit: contain;
+}
+.listIcon svg {
+  padding: 12px;
+  --bgColor: #282828;
+  background: var(--bgColor);
+}
+
+.listName {
+  margin-left: 12px;
+  font-size: 0.85em;
+  max-width: calc(100% - 60px);
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.songsListSection h3 {
+  padding: 12px 0px;
+  margin-top: 24px;
+}
+.songsList {
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.song {
+  height: 60px;
+  border-radius: 6px;
+  display: flex;
+  padding: 6px;
+  position: relative;
+  cursor: pointer;
+}
+.song:nth-last-child(1) {
+  margin-bottom: 116px;
+}
+.songImgCnt {
+  height: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 6px;
+}
+.songImgCnt img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.songImgCnt img[alt*="Cover"] {
+  font-size: 0.5em;
+}
+.songInfoCnt {
+  width: calc(100% - 48px - 20px);
+  padding-left: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.songTitle {
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.singerTitle {
+  font-size: 0.75em;
+  color: gray;
+}
+
+.threeDotsClass {
+  position: absolute;
+  height: 100%;
+  right: 6px;
+  top: 0;
+  align-content: center;
+  padding: 6px;
+}
+.threeDotsClass svg {
+  width: 5px;
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Spotify Clone",
+  "short_name": "Spotify",
+  "icons": [
+    {
+      "src": "assets/img/mobileIcon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/img/mainLogo.png",
+      "sizes": "939x940",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "index.html",
+  "display": "fullscreen",
+  "theme_color": "#121212",
+  "background_color": "#121212"
+}

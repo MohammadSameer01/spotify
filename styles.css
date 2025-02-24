@@ -1,0 +1,321 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+:root {
+  --backgroundColor: #121212;
+  --textColor: #fff;
+  --lightWhiteColor: #b3b3b3;
+
+  --ffPoppins: "Poppins", serif;
+  --ffDMSans: "DM Sans", serif;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+svg {
+  fill: var(--textColor);
+}
+
+body {
+  background-color: var(--backgroundColor);
+  color: var(--textColor);
+  font-family: var(--ffPoppins);
+}
+header {
+  height: 70px;
+  padding: 12px;
+  align-content: center;
+}
+
+.greetingsText {
+  font-weight: 900;
+  font-size: 1.3em;
+  font-family: var(--ffDMSans) !important;
+  letter-spacing: -0.75px;
+}
+
+#fixedFooter {
+  height: 70px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 6px 12px;
+  align-content: center;
+  background: linear-gradient(transparent, var(--backgroundColor) 75%);
+  backdrop-filter: blur(1px);
+}
+.footerIconsCnt {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.footerIcon {
+  width: 25%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#fixedFooter svg {
+  width: 100%;
+  height: 70%;
+  padding: 8px;
+}
+.footerIcon span {
+  font-size: 0.7em;
+  text-wrap: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.currentPlayerCnt {
+  height: 56px;
+  border-radius: 10px;
+  width: calc(100% - 24px);
+  position: fixed;
+  margin-left: 12px;
+  bottom: 70px;
+  padding: 6px;
+  display: flex;
+
+  transform: translateY(100%);
+  transition: 0.3s ease;
+  visibility: hidden;
+}
+.currentPlayerCntActive {
+  transform: translate(0);
+  visibility: visible;
+}
+.currentPlayerCnt .songImgCnt {
+  border-radius: 50%;
+  animation: songPlaying 12s linear infinite;
+}
+@keyframes songPlaying {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.currentPlayerCnt .songInfoCnt {
+  width: calc(100% - 48px - 90px);
+}
+.currentPlayerCnt .songTitle {
+  font-size: 0.85em;
+  font-weight: 600;
+}
+.currentPlayerCnt .singerTitle {
+  color: var(--textColor);
+}
+
+.currentPlayerCnt .likeAndPlayPauseBtnCnt {
+  height: 100%;
+  display: flex;
+  gap: 2px;
+}
+.likeAndPlayPauseBtnCnt div {
+  height: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.likeAndPlayPauseBtnCnt svg {
+  height: 24px;
+}
+/*  */
+/*  */
+/*  */
+/*  */
+#currPlayerDisplaySection {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  padding: 12px;
+  transition: 0.3s ease;
+  /* background: linear-gradient(rgb(250, 0, 0), rgb(122, 0, 0), rgb(30, 0, 0)); */
+  transform: translate(0, 90%);
+  visibility: hidden;
+  background: var(--backgroundColor);
+}
+.currPlayerDisplaySectionActive {
+  transform: translate(0) !important;
+  z-index: 1 !important;
+  visibility: visible !important;
+}
+
+.currPlayerHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px;
+}
+.currPlayerDropDownCnt,
+.currPlayerMenuCnt {
+  width: 42px;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.currPlayerHeader svg {
+  height: 24px;
+}
+.currPlayerMiddleCnt {
+  align-content: center;
+}
+.currPlayerSongName {
+  font-size: 0.75em;
+  font-weight: 600;
+}
+.currPlayerSongCoverCnt {
+  transition: 0.3s ease;
+  height: calc(100dvh - 54px - 291.6px); /*total height - header height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.currPlayerSongCoverCnt-effect {
+  animation: currPlayerSongCoverAnimation 0.6s ease;
+}
+.currPlayerSongCoverCnt-effectLeft {
+  animation: currPlayerSongCoverAnimation 0.6s ease reverse;
+}
+
+@keyframes currPlayerSongCoverAnimation {
+  50% {
+    transform: translateX(-120%);
+    scale: 1;
+  }
+  51% {
+    transform: translateX(120%);
+    scale: 0;
+  }
+  52% {
+    scale: 1;
+  }
+}
+
+.currPlayerSongCoverCnt img {
+  object-fit: contain;
+  width: 95%;
+}
+
+/*  */
+.currPlayerControlsCnt {
+  padding: 0 12px;
+}
+
+.controlsSongDetailsCnt {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cdSongName {
+  font-size: 1.2em;
+  font-weight: 550;
+}
+.cdSingerName {
+  font-size: 0.9em;
+  font-weight: 500;
+  color: var(--lightWhiteColor);
+}
+.controlsSongDetailsCnt svg {
+  height: 24px;
+}
+.cdSongLikedIcon {
+  height: 36px;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.songRangeCnt {
+  padding: 12px 0;
+  margin: 24px 0 12px 0;
+}
+.songRangeCnt input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  background: var(--lightWhiteColor);
+  border-radius: 0;
+  cursor: pointer;
+  background: linear-gradient(to right, white 0%, gray 0%);
+  transition: background 0.3s ease;
+}
+.songRangeCnt input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background: white;
+  width: 12px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+.songTimeCnt {
+  display: flex;
+  justify-content: space-between;
+}
+.songTimeCnt div {
+  font-size: 0.65em;
+  color: gray;
+}
+
+/*  */
+.audioPlayPauseControlsCnt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.audioControlIcon {
+  height: 40px;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 -6px;
+}
+.audioPlayPauseControlsCnt svg {
+  height: 30px;
+}
+
+.cdPlayPauseBtn {
+  height: 58px;
+  aspect-ratio: 1;
+  background: var(--textColor);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  padding: 12px;
+}
+.cdPlayPauseBtn svg {
+  fill: black;
+  height: 24px;
+}
+.smallSizeIcon svg {
+  height: 24px;
+  opacity: 0.5;
+}
+.extraIcons {
+  display: block;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 28px 0;
+}
+.extraIcons div {
+  height: 28px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+}
+.extraIcons svg {
+  height: 16px;
+}
