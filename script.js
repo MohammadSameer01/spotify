@@ -456,39 +456,115 @@ changeSongClass.forEach((btn) => {
 //
 //
 //
-let touchStartY = 0;
-document.addEventListener(
-  "touchstart",
-  function (e) {
-    touchStartY = e.touches[0].clientY;
-  },
-  { passive: false }
-);
-document.addEventListener(
-  "touchmove",
-  function (e) {
-    let section = document.getElementById("currPlayerDisplaySection");
+// COMMENTING FROM HERE
+// let touchStartY = 0;
+// document.addEventListener(
+//   "touchstart",
+//   function (e) {
+//     touchStartY = e.touches[0].clientY;
+//   },
+//   { passive: false }
+// );
+// document.addEventListener(
+//   "touchmove",
+//   function (e) {
+//     let section = document.getElementById("currPlayerDisplaySection");
 
-    // Check if the section has the class before executing
-    if (section.classList.contains("currPlayerDisplaySectionActive")) {
-      // Detect if user is at the very top of the page
-      if (window.scrollY === 0 && e.touches[0].clientY > touchStartY) {
-        e.preventDefault(); // Prevent pull-to-refresh
-        section.classList.remove("currPlayerDisplaySectionActive"); // Remove the class
-        setTimeout(() => {
-          currentPlayerCnt.classList.add("currentPlayerCntActive");
-          themeColorFunc();
-        }, 300);
-      }
-    } else {
-      if (window.scrollY === 0 && e.touches[0].clientY > touchStartY) {
-        e.preventDefault(); // Prevent pull-to-refresh
-      }
-    }
-  },
-  { passive: false }
-);
+//     // Check if the section has the class before executing
+//     if (section.classList.contains("currPlayerDisplaySectionActive")) {
+//       // Detect if user is at the very top of the page
+//       if (window.scrollY === 0 && e.touches[0].clientY > touchStartY) {
+//         e.preventDefault(); // Prevent pull-to-refresh
+//         section.classList.remove("currPlayerDisplaySectionActive"); // Remove the class
+//         setTimeout(() => {
+//           currentPlayerCnt.classList.add("currentPlayerCntActive");
+//           themeColorFunc();
+//         }, 300);
+//       }
+//     } else {
+//       if (window.scrollY === 0 && e.touches[0].clientY > touchStartY) {
+//         e.preventDefault(); // Prevent pull-to-refresh
+//       }
+//     }
+//   },
+//   { passive: false }
+// );
+// TO HERE
+//
 
+document.addEventListener("DOMContentLoaded", function () {
+  let touchStartY = 0;
+  let touchStartX = 0;
+  let touchStartTime = 0;
+
+  document.addEventListener(
+    "touchstart",
+    function (e) {
+      touchStartY = e.touches[0].clientY;
+      touchStartX = e.touches[0].clientX;
+      touchStartTime = new Date().getTime(); // Capture start time
+    },
+    { passive: false }
+  );
+
+  document.addEventListener(
+    "touchmove",
+    function (e) {
+      let section = document.getElementById("currPlayerDisplaySection");
+      if (!section) return;
+
+      // ✅ Ignore sliders & input elements
+      if (e.target.tagName === "INPUT" && e.target.type === "range") {
+        return; // Allow range sliders to work normally
+      }
+
+      let deltaY = e.touches[0].clientY - touchStartY;
+      let deltaX = Math.abs(e.touches[0].clientX - touchStartX); // Horizontal movement
+      let timeDiff = new Date().getTime() - touchStartTime; // Swipe duration
+
+      let isHardSwipe = deltaY > 100 && timeDiff < 250; // Stronger & faster swipe
+      let isMostlyVertical = deltaY > deltaX * 3; // Must be mostly vertical
+
+      if (section.scrollTop === 0 && isHardSwipe && isMostlyVertical) {
+        e.preventDefault(); // Stop browser refresh
+
+        if (section.classList.contains("currPlayerDisplaySectionActive")) {
+          section.classList.remove("currPlayerDisplaySectionActive");
+
+          setTimeout(() => {
+            let currentPlayerCnt = document.querySelector(".currentPlayerCnt");
+            if (currentPlayerCnt) {
+              currentPlayerCnt.classList.remove("currentPlayerCntActive");
+              void currentPlayerCnt.offsetWidth; // Force repaint
+              currentPlayerCnt.classList.add("currentPlayerCntActive");
+            } else {
+              console.warn("currentPlayerCnt element not found!");
+            }
+            themeColorFunc();
+          }, 300);
+        }
+      }
+    },
+    { passive: false }
+  );
+
+  // ✅ Extra: Prevent pull-to-refresh globally (without affecting sliders)
+  document.addEventListener(
+    "touchmove",
+    function (e) {
+      if (
+        window.scrollY === 0 &&
+        e.touches[0].clientY > touchStartY &&
+        !(e.target.tagName === "INPUT" && e.target.type === "range") // Ignore sliders
+      ) {
+        e.preventDefault(); // Stop pull-to-refresh
+      }
+    },
+    { passive: false }
+  );
+});
+
+//
 //
 //
 //
