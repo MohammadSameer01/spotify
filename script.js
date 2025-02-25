@@ -94,11 +94,9 @@ function createSongBox(
   //
   song.append(songImgCnt);
   song.append(songInfoCnt);
-
-  song.addEventListener("click", () => {
-    // console.log(songName);
-  });
-
+  //
+  //
+  //
   let threeDots = document.createElement("div");
   threeDots.innerHTML = `
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"/></svg>
@@ -464,20 +462,20 @@ currPlayerDropDownCnt.addEventListener("click", () => {
 //
 //
 //
-function openFullscreen() {
-  if (document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen();
-  } else if (document.documentElement.mozRequestFullScreen) {
-    // Firefox
-    document.documentElement.mozRequestFullScreen();
-  } else if (document.documentElement.webkitRequestFullscreen) {
-    // Chrome, Safari
-    document.documentElement.webkitRequestFullscreen();
-  } else if (document.documentElement.msRequestFullscreen) {
-    // IE/Edge
-    document.documentElement.msRequestFullscreen();
-  }
-}
+// function openFullscreen() {
+//   if (document.documentElement.requestFullscreen) {
+//     document.documentElement.requestFullscreen();
+//   } else if (document.documentElement.mozRequestFullScreen) {
+//     // Firefox
+//     document.documentElement.mozRequestFullScreen();
+//   } else if (document.documentElement.webkitRequestFullscreen) {
+//     // Chrome, Safari
+//     document.documentElement.webkitRequestFullscreen();
+//   } else if (document.documentElement.msRequestFullscreen) {
+//     // IE/Edge
+//     document.documentElement.msRequestFullscreen();
+//   }
+// }
 
 function changeSongFunction() {
   let songs = Object.keys(songsObject);
@@ -525,7 +523,6 @@ function changeSongFunction() {
     currPlayerBackgroundColor();
   }, 300);
   //
-
   showSongNotification(nowPlaying, currentAudio);
 }
 
@@ -707,7 +704,7 @@ document.addEventListener(
 
       setTimeout(() => {
         themeColorFunc();
-      }, 310);
+      }, 300);
     }
 
     currentPlayerCnt.removeAttribute("data-swiping"); // Reset swiping state
@@ -744,23 +741,6 @@ function songChangeAnimationLeft() {
 //
 //
 //
-let deferredPrompt;
-window.addEventListener("beforeinstallprompt", (event) => {
-  event.preventDefault();
-  deferredPrompt = event;
-
-  document.getElementById("install-btn").style.display = "block";
-
-  document.getElementById("install-btn").addEventListener("click", () => {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then((choice) => {
-      if (choice.outcome === "accepted") {
-        console.log("User installed the app");
-      }
-      deferredPrompt = null;
-    });
-  });
-});
 
 //
 //
