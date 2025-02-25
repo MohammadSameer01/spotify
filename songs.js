@@ -49,13 +49,6 @@ let songsObject = {
     songAudio: `assets/songs/pehlaPyaar.mp3`,
     themeColor: `#c81820,black`,
   },
-  kyaMujhePyaarHai: {
-    songTitle: `Kya Mujhe Pyaar Hai`,
-    singer: `Pritam`,
-    songCover: `https://pagalnew.com/coverimages/Kya-Mujhe-Pyaar-Hai-Woh-Lamhe-500-500.jpg`,
-    songAudio: `assets/songs/kyaMujhePyaarHai.mp3`,
-    themeColor: `#a46a3f,black`,
-  },
   meraNaamTu: {
     songTitle: `Mera Naam Tu`,
     singer: `Abhay Jodhpukar`,
@@ -83,5 +76,19 @@ let songsObject = {
     songCover: `https://pagalnew.com/coverimages/Mere-Liye-Tum-Kaafi-Ho-Shubh-Mangal-Zyada-Saavdhan-500-500.jpg`,
     songAudio: `assets/songs/mereLiyeTumKaafiHo.mp3`,
     themeColor: `#a4666d,black`,
+  },
+  _295: {
+    songTitle: `295`,
+    singer: `Sidhu Moose Wala`,
+    songCover: `https://i.scdn.co/image/ab67616d0000b2731d1cc2e40d533d7bcebf5dae`,
+    songAudio: `assets/songs/_295.mp3`,
+    themeColor: `#c81810,black`,
+  },
+  malang: {
+    songTitle: `Malang`,
+    singer: `Ved Sharma`,
+    songCover: `https://i.scdn.co/image/ab67616d0000b27399655481a2151203ed89351d`,
+    songAudio: `assets/songs/malang.mp3`,
+    themeColor: `#002890,black`,
   },
 };
