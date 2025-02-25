@@ -707,7 +707,7 @@ document.addEventListener(
 
       setTimeout(() => {
         themeColorFunc();
-      }, 300);
+      }, 310);
     }
 
     currentPlayerCnt.removeAttribute("data-swiping"); // Reset swiping state
