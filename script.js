@@ -32,7 +32,20 @@ function loadHomePageSongs() {
     let singer = songDetails.singer;
     let songAudio = songDetails.songAudio;
     let songCoverImage = songDetails.songCover;
-    let coverImageALTText = songDetails.songImageALTText;
+    // let coverImageALTText = `Cover image for the song '${songTitle}' by ${singer}`;
+
+    let alternateTextArray = [
+      `Official cover art for the song '${songTitle}' by ${singer} featuring bold typography with a dark and intense aesthetic`,
+      `Cover art for '${songTitle}' by ${singer} with glowing neon lights and a futuristic city background`,
+      `Cover image for '${songTitle}' by ${singer} featuring a close-up portrait of the artist with a vintage filter`,
+      `Album artwork for '${songTitle}' by ${singer} featuring abstract watercolor designs in shades of blue and purple`,
+      `Minimalist cover design for '${songTitle}' by ${singer} with a plain white background and handwritten typography`,
+      `Official song cover for '${songTitle}' by ${singer} with a gritty, grunge aesthetic and distorted typography`,
+    ];
+
+    randomChoice = Math.floor(Math.random() * alternateTextArray.length);
+    let coverImageALTText = alternateTextArray[randomChoice];
+
     //
     createSongBox(
       songTitle,
@@ -62,14 +75,14 @@ function createSongBox(
   let img = document.createElement("img");
   img.setAttribute("src", songCoverImage); //parameterFour
   img.setAttribute("class", "songImage");
-  img.setAttribute("alt", coverImageALTText); //parameterFive
+  img.setAttribute("alt", coverImageALTText); //parameterFive //
   //
   songImgCnt.append(img);
   //
   let songInfoCnt = document.createElement("div");
   songInfoCnt.setAttribute("class", "songInfoCnt");
   //
-  let songTitle = document.createElement("div");
+  let songTitle = document.createElement("h4");
   songTitle.setAttribute("class", "songTitle");
   songTitle.innerText = songName; // parameterOne
   songInfoCnt.append(songTitle);
@@ -105,12 +118,10 @@ let currentAudio = null;
 boxes.forEach((box) => {
   box.addEventListener("click", () => {
     let songTitle = box.querySelector(".songTitle").innerText;
-
     // Find the song object by its title
     let songKey = Object.keys(songsObject).find(
       (key) => songsObject[key].songTitle === songTitle
     );
-
     if (songKey) {
       let currentSong = songsObject[songKey];
 
@@ -140,6 +151,10 @@ boxes.forEach((box) => {
         currentSong.songCover,
         currentAudio
       );
+      updatePageTitle();
+
+      // Example: Call the function when a song starts playing
+      showSongNotification(nowPlaying, currentAudio);
     } else {
       alert("Song not found.");
     }
@@ -152,6 +167,7 @@ boxes.forEach((box) => {
 //
 //
 let songProgressBar = document.querySelector(".songProgressBar");
+
 function updateCurrentPlayerCnt(
   currentSongName,
   currentSingerName,
@@ -184,14 +200,30 @@ function updateCurrentPlayerCnt(
   nowPlayingSongCover.setAttribute("src", songImage);
   //
   //
+  // --------------------------------------------------------
+  // Commented from here
+  // playingSong.addEventListener("timeupdate", () => {
+  //   progressBarBackground(playingSong);
+  //   if (currentAudio.currentTime >= currentAudio.duration) {
+  //     isPlaying = false;
+  //     updatePlayIcon();
+  //   }
+  // });
+  // Commented till here
+  // --------------------------------------------------------
 
-  playingSong.addEventListener("timeupdate", () => {
+  // 🔹 Remove any existing "timeupdate" listener to avoid duplication
+  playingSong.removeEventListener("timeupdate", updateProgress);
+  playingSong.addEventListener("timeupdate", updateProgress);
+
+  // 🔹 Function to handle progress updates (prevents multiple listeners)
+  function updateProgress() {
     progressBarBackground(playingSong);
-    if (currentAudio.currentTime >= currentAudio.duration) {
+    if (playingSong.currentTime >= playingSong.duration) {
       isPlaying = false;
       updatePlayIcon();
     }
-  });
+  }
   //
   //
   //
@@ -199,21 +231,55 @@ function updateCurrentPlayerCnt(
   updateSongTime(playingSong);
   currPlayerSmallSizeBackground();
 }
+//
+// Commenting function
+// --------------------------------------------------
+// function updateSongTime(playingSong) {
+//   playingSong.addEventListener("loadedmetadata", () => {
+//     let totalTime = document.querySelector(".totalTime");
+//     //
+//     //
+//     totalMinutes = Math.floor(playingSong.duration / 60);
+//     totalSeconds = Math.floor(playingSong.duration % 60)
+//       .toString()
+//       .padStart(2, "0");
+
+//     //
+//     // Update values to webpage
+//     totalTime.innerHTML = `${totalMinutes}:${totalSeconds}`;
+//   });
+// }
+// Commented till here
+// --------------------------------------------------
+//
+
 function updateSongTime(playingSong) {
-  playingSong.addEventListener("loadedmetadata", () => {
+  function updateDuration() {
     let totalTime = document.querySelector(".totalTime");
-    //
-    //
-    totalMinutes = Math.floor(playingSong.duration / 60);
-    totalSeconds = Math.floor(playingSong.duration % 60)
+
+    let totalMinutes = Math.floor(playingSong.duration / 60);
+    let totalSeconds = Math.floor(playingSong.duration % 60)
       .toString()
       .padStart(2, "0");
 
-    //
-    // Update values to webpage
+    // Update values on the webpage
     totalTime.innerHTML = `${totalMinutes}:${totalSeconds}`;
-  });
+  }
+
+  // If metadata is already loaded, update immediately
+  if (!isNaN(playingSong.duration)) {
+    updateDuration();
+  } else {
+    // Wait for metadata if not loaded yet
+    playingSong.addEventListener("loadedmetadata", updateDuration, {
+      once: true,
+    });
+  }
 }
+
+//
+//
+
 function progressBarBackground(playingSong) {
   let currTime = document.querySelector(".currTime");
 
@@ -308,22 +374,41 @@ function currPlayerDetailsVisibility() {
   }
 }
 
+// //////////////////////////////////////
+
 function themeColorFunc(winnerColor) {
+  let metaTag = document.querySelector("meta[name='theme-color']");
+
+  // THIS CREATES A META TAG IF THAT IS NOT PRESENT IN THE HEAD ALREADY
+  if (!metaTag) {
+    metaTag = document.createElement("meta");
+    metaTag.setAttribute("name", "theme-color");
+    document.head.appendChild(metaTag);
+  }
+
   const rootStyles = getComputedStyle(document.documentElement);
   const backgroundColor = rootStyles
     .getPropertyValue("--backgroundColor")
     .trim();
 
-  let metaTag = document.createElement("meta");
-  metaTag.setAttribute("name", "theme-color");
-  if (winnerColor) {
-    metaTag.setAttribute("content", winnerColor);
-  } else {
-    metaTag.setAttribute("content", backgroundColor);
-  }
-
-  document.head.prepend(metaTag);
+  metaTag.setAttribute("content", winnerColor || backgroundColor);
 }
+function updatePageTitle() {
+  let songName = document.querySelector(".currentPlayerCnt .songTitle");
+  let singerName = document.querySelector(".currentPlayerCnt .singerTitle");
+
+  songName = songName.innerHTML;
+  singerName = singerName.innerHTML;
+
+  newPageTitle = `${songName} • ${singerName}`;
+
+  if (newPageTitle) {
+    document.title = newPageTitle;
+  }
+}
+
+// //////////////////////////////////////
+
 function currPlayerBackgroundColor() {
   let themeColors = nowPlaying.themeColor;
   const [color1, color2] = themeColors.split(",");
@@ -350,6 +435,9 @@ openCurrSongClass.forEach((box) => {
   box.addEventListener("click", () => {
     currPlayerDisplaySection.classList.add("currPlayerDisplaySectionActive");
     currentPlayerCnt.classList.remove("currentPlayerCntActive");
+
+    document.body.classList.add("bodyStylesAdd");
+
     //
     currPlayerBackgroundColor();
   });
@@ -358,6 +446,7 @@ openCurrSongClass.forEach((box) => {
 currPlayerDropDownCnt.addEventListener("click", () => {
   currPlayerDisplaySection.classList.remove("currPlayerDisplaySectionActive");
   themeColorFunc();
+  document.body.classList.remove("bodyStylesAdd");
   setTimeout(() => {
     currentPlayerCnt.classList.add("currentPlayerCntActive");
   }, 200);
@@ -401,7 +490,7 @@ function changeSongFunction() {
   let prevSong = currentAudio.src;
   prevSong = prevSong.split("/").pop();
   //
-
+  //
   if (newSongCheck !== prevSong) {
     if (currentAudio && !currentAudio.paused) {
       currentAudio.pause();
@@ -423,7 +512,7 @@ function changeSongFunction() {
   } else {
     changeSongFunction();
   }
-
+  //
   setTimeout(() => {
     // Update the current player (or UI) with the new song details
     updateCurrentPlayerCnt(
@@ -432,8 +521,12 @@ function changeSongFunction() {
       currentSong.songCover,
       currentAudio
     );
+    updatePageTitle();
     currPlayerBackgroundColor();
   }, 300);
+  //
+
+  showSongNotification(nowPlaying, currentAudio);
 }
 
 let changeSongClass = document.querySelectorAll(".changeSongClass");
@@ -541,6 +634,7 @@ document.addEventListener("DOMContentLoaded", function () {
               console.warn("currentPlayerCnt element not found!");
             }
             themeColorFunc();
+            document.body.classList.remove("bodyStylesAdd");
           }, 300);
         }
       }
@@ -576,7 +670,6 @@ let touchStartX = 0;
 let touchStartTime = 0;
 const SWIPE_DISTANCE_THRESHOLD = 100; // Minimum pixels for strong swipe
 const SWIPE_TIME_THRESHOLD = 300; // Max time (ms) for a fast swipe
-
 document.addEventListener(
   "touchstart",
   function (e) {
@@ -642,3 +735,110 @@ function songChangeAnimationLeft() {
     );
   }, 600);
 }
+
+//
+//
+//
+//
+//
+//
+//
+//
+let deferredPrompt;
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredPrompt = event;
+
+  document.getElementById("install-btn").style.display = "block";
+
+  document.getElementById("install-btn").addEventListener("click", () => {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((choice) => {
+      if (choice.outcome === "accepted") {
+        console.log("User installed the app");
+      }
+      deferredPrompt = null;
+    });
+  });
+});
+
+//
+//
+//
+//
+//
+//
+
+function showSongNotification(nowPlaying, audioElement) {
+  if (!nowPlaying || Object.keys(nowPlaying).length === 0) {
+    console.error("No song is currently playing.");
+    return;
+  }
+
+  if (!("mediaSession" in navigator)) {
+    console.warn("Media Session API not supported.");
+  } else {
+    // ✅ Set Metadata (Only Song Info)
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: nowPlaying.songTitle,
+      artist: nowPlaying.singer,
+      artwork: [
+        { src: nowPlaying.songCover, sizes: "512x512", type: "image/png" },
+      ],
+    });
+
+    // ✅ Play Button
+    navigator.mediaSession.setActionHandler("play", () => {
+      audioElement.play();
+      isPlaying = true;
+      updatePlayIcon();
+    });
+
+    // ✅ Pause Button
+    navigator.mediaSession.setActionHandler("pause", () => {
+      audioElement.pause();
+      isPlaying = false;
+      updatePlayIcon();
+    });
+  }
+
+  // ✅ Show Web Notification (Only Song Info)
+  if (Notification.permission === "granted") {
+    new Notification(nowPlaying.songTitle, {
+      body: nowPlaying.singer,
+      icon: nowPlaying.songCover,
+    });
+  } else if (Notification.permission !== "denied") {
+    Notification.requestPermission().then((permission) => {
+      if (permission === "granted") {
+        new Notification(nowPlaying.songTitle, {
+          body: nowPlaying.singer,
+          icon: nowPlaying.songCover,
+        });
+      }
+    });
+  }
+}
+
+//
+//
+//
+//
+//
+//
+function addElement() {
+  if (window.innerWidth > 768) {
+    let element = document.createElement("h3");
+    element.textContent = "Your Library";
+    document.querySelector(".listsSection").prepend(element);
+    element.style.padding = "12px 0";
+    //
+    let currPlayerDropDownCnt = document.querySelector(
+      ".currPlayerDropDownCnt"
+    );
+    currPlayerDropDownCnt.innerHTML = `
+    <svg data-encore-id="icon" role="img" aria-hidden="true" class="e-9640-icon" viewBox="0 0 24 24"><path d="M21.707 2.293a1 1 0 0 1 0 1.414L17.414 8h1.829a1 1 0 0 1 0 2H14V4.757a1 1 0 1 1 2 0v1.829l4.293-4.293a1 1 0 0 1 1.414 0zM2.293 21.707a1 1 0 0 1 0-1.414L6.586 16H4.757a1 1 0 0 1 0-2H10v5.243a1 1 0 0 1-2 0v-1.829l-4.293 4.293a1 1 0 0 1-1.414 0z"></path></svg>
+    `;
+  }
+}
+addElement();
