@@ -335,16 +335,4 @@ header {
   height: 16px;
 }
 
-/* WEBAPP install Button */
-#install-btn {
-  background: darkblue;
-  color: white;
-  padding: 10px 24px;
-  font-family: var(--ffPoppins);
-  border: 0;
-  border-radius: 6px;
-  position: fixed;
-  bottom: 77px;
-  z-index: 1;
-  right: 20px;
-}
+
