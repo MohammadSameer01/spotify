@@ -24,6 +24,11 @@ body {
   color: var(--textColor);
   font-family: var(--ffPoppins);
 }
+.bodyStylesAdd {
+  background: #000;
+  height: 100vh;
+  overflow: hidden;
+}
 header {
   height: 70px;
   padding: 12px;
@@ -51,6 +56,7 @@ header {
   display: flex;
   align-items: center;
   height: 100%;
+  gap: 4px;
 }
 .footerIcon {
   width: 25%;
@@ -59,7 +65,10 @@ header {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  cursor: pointer;
 }
+
 #fixedFooter svg {
   width: 100%;
   height: 70%;
@@ -85,12 +94,14 @@ header {
   transform: translateY(100%);
   transition: 0.3s ease;
   visibility: hidden;
+  cursor: pointer;
 }
 .currentPlayerCntActive {
   transform: translate(0);
   visibility: visible;
 }
-.currentPlayerCnt .songImgCnt {
+
+/* .currentPlayerCnt .songImgCnt {
   border-radius: 50%;
   animation: songPlaying 12s linear infinite;
 }
@@ -98,7 +109,8 @@ header {
   100% {
     transform: rotate(360deg);
   }
-}
+} */
+
 .currentPlayerCnt .songInfoCnt {
   width: calc(100% - 48px - 90px);
 }
@@ -159,6 +171,7 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 .currPlayerHeader svg {
   height: 24px;
@@ -280,25 +293,27 @@ header {
   justify-content: center;
   align-items: center;
   margin: 0 -6px;
+  cursor: pointer;
 }
 .audioPlayPauseControlsCnt svg {
   height: 30px;
 }
 
 .cdPlayPauseBtn {
-  height: 58px;
+  height: 62px;
   aspect-ratio: 1;
   background: var(--textColor);
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  padding: 12px;
+  cursor: pointer;
 }
 .cdPlayPauseBtn svg {
   fill: black;
-  height: 24px;
+  height: 26px;
 }
+
 .smallSizeIcon svg {
   height: 24px;
   opacity: 0.5;
@@ -318,4 +333,18 @@ header {
 }
 .extraIcons svg {
   height: 16px;
+}
+
+/* WEBAPP install Button */
+#install-btn {
+  background: darkblue;
+  color: white;
+  padding: 10px 24px;
+  font-family: var(--ffPoppins);
+  border: 0;
+  border-radius: 6px;
+  position: fixed;
+  bottom: 77px;
+  z-index: 1;
+  right: 20px;
 }
