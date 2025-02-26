@@ -196,19 +196,8 @@ function updateCurrentPlayerCnt(
   cdSingerName.innerText = currentSingerName;
   let nowPlayingSongCover = document.querySelector(".nowPlayingSongCover");
   nowPlayingSongCover.setAttribute("src", songImage);
-  //
-  //
-  // --------------------------------------------------------
-  // Commented from here
-  // playingSong.addEventListener("timeupdate", () => {
-  //   progressBarBackground(playingSong);
-  //   if (currentAudio.currentTime >= currentAudio.duration) {
-  //     isPlaying = false;
-  //     updatePlayIcon();
-  //   }
-  // });
-  // Commented till here
-  // --------------------------------------------------------
+
+  fetchWikiImage(currentSingerName);
 
   // 🔹 Remove any existing "timeupdate" listener to avoid duplication
   playingSong.removeEventListener("timeupdate", updateProgress);
@@ -229,27 +218,6 @@ function updateCurrentPlayerCnt(
   updateSongTime(playingSong);
   currPlayerSmallSizeBackground();
 }
-//
-// Commenting function
-// --------------------------------------------------
-// function updateSongTime(playingSong) {
-//   playingSong.addEventListener("loadedmetadata", () => {
-//     let totalTime = document.querySelector(".totalTime");
-//     //
-//     //
-//     totalMinutes = Math.floor(playingSong.duration / 60);
-//     totalSeconds = Math.floor(playingSong.duration % 60)
-//       .toString()
-//       .padStart(2, "0");
-
-//     //
-//     // Update values to webpage
-//     totalTime.innerHTML = `${totalMinutes}:${totalSeconds}`;
-//   });
-// }
-// Commented till here
-// --------------------------------------------------
-//
 
 function updateSongTime(playingSong) {
   function updateDuration() {
@@ -366,9 +334,11 @@ playPauseBtn.forEach((button) => {
   });
 });
 
+let fixedFooter = document.querySelector("#fixedFooter");
 function currPlayerDetailsVisibility() {
   if (currentAudio !== null) {
     currentPlayerCnt.classList.add("currentPlayerCntActive");
+    fixedFooter.classList.add("footerSongActiveStyles");
   }
 }
 
@@ -413,8 +383,15 @@ function currPlayerBackgroundColor() {
 
   currPlayerDisplaySection.style.background = `linear-gradient(${color1},${color2})`;
 
-  themeColorFunc(color1);
+  if (
+    currPlayerDisplaySection.classList.contains(
+      "currPlayerDisplaySectionActive"
+    )
+  ) {
+    themeColorFunc(color1);
+  }
 }
+
 // Background Color for fixed small sized currentPlayer Container
 function currPlayerSmallSizeBackground() {
   let metaThemeColors = nowPlaying.themeColor;
@@ -546,114 +523,78 @@ changeSongClass.forEach((btn) => {
 //
 //
 //
-// COMMENTING FROM HERE
-// let touchStartY = 0;
-// document.addEventListener(
-//   "touchstart",
-//   function (e) {
-//     touchStartY = e.touches[0].clientY;
-//   },
-//   { passive: false }
-// );
-// document.addEventListener(
-//   "touchmove",
-//   function (e) {
-//     let section = document.getElementById("currPlayerDisplaySection");
+// document.addEventListener("DOMContentLoaded", function () {
+//   let touchStartY = 0;
+//   let touchStartX = 0;
+//   let touchStartTime = 0;
 
-//     // Check if the section has the class before executing
-//     if (section.classList.contains("currPlayerDisplaySectionActive")) {
-//       // Detect if user is at the very top of the page
-//       if (window.scrollY === 0 && e.touches[0].clientY > touchStartY) {
-//         e.preventDefault(); // Prevent pull-to-refresh
-//         section.classList.remove("currPlayerDisplaySectionActive"); // Remove the class
-//         setTimeout(() => {
-//           currentPlayerCnt.classList.add("currentPlayerCntActive");
-//           themeColorFunc();
-//         }, 300);
+//   document.addEventListener(
+//     "touchstart",
+//     function (e) {
+//       touchStartY = e.touches[0].clientY;
+//       touchStartX = e.touches[0].clientX;
+//       touchStartTime = new Date().getTime(); // Capture start time
+//     },
+//     { passive: false }
+//   );
+
+//   document.addEventListener(
+//     "touchmove",
+//     function (e) {
+//       let section = document.getElementById("currPlayerDisplaySection");
+//       if (!section) return;
+
+//       // ✅ Ignore sliders & input elements
+//       if (e.target.tagName === "INPUT" && e.target.type === "range") {
+//         return; // Allow range sliders to work normally
 //       }
-//     } else {
-//       if (window.scrollY === 0 && e.touches[0].clientY > touchStartY) {
-//         e.preventDefault(); // Prevent pull-to-refresh
+
+//       let deltaY = e.touches[0].clientY - touchStartY;
+//       let deltaX = Math.abs(e.touches[0].clientX - touchStartX); // Horizontal movement
+//       let timeDiff = new Date().getTime() - touchStartTime; // Swipe duration
+
+//       let isHardSwipe = deltaY > 100 && timeDiff < 250; // Stronger & faster swipe
+//       let isMostlyVertical = deltaY > deltaX * 3; // Must be mostly vertical
+
+//       if (section.scrollTop === 0 && isHardSwipe && isMostlyVertical) {
+//         e.preventDefault(); // Stop browser refresh
+
+//         if (section.classList.contains("currPlayerDisplaySectionActive")) {
+//           section.classList.remove("currPlayerDisplaySectionActive");
+
+//           setTimeout(() => {
+//             let currentPlayerCnt = document.querySelector(".currentPlayerCnt");
+//             if (currentPlayerCnt) {
+//               currentPlayerCnt.classList.remove("currentPlayerCntActive");
+//               void currentPlayerCnt.offsetWidth; // Force repaint
+//               currentPlayerCnt.classList.add("currentPlayerCntActive");
+//             } else {
+//               console.warn("currentPlayerCnt element not found!");
+//             }
+//             themeColorFunc();
+//             document.body.classList.remove("bodyStylesAdd");
+//           }, 300);
+//         }
 //       }
-//     }
-//   },
-//   { passive: false }
-// );
-// TO HERE
-//
+//     },
+//     { passive: false }
+//   );
 
-document.addEventListener("DOMContentLoaded", function () {
-  let touchStartY = 0;
-  let touchStartX = 0;
-  let touchStartTime = 0;
-
-  document.addEventListener(
-    "touchstart",
-    function (e) {
-      touchStartY = e.touches[0].clientY;
-      touchStartX = e.touches[0].clientX;
-      touchStartTime = new Date().getTime(); // Capture start time
-    },
-    { passive: false }
-  );
-
-  document.addEventListener(
-    "touchmove",
-    function (e) {
-      let section = document.getElementById("currPlayerDisplaySection");
-      if (!section) return;
-
-      // ✅ Ignore sliders & input elements
-      if (e.target.tagName === "INPUT" && e.target.type === "range") {
-        return; // Allow range sliders to work normally
-      }
-
-      let deltaY = e.touches[0].clientY - touchStartY;
-      let deltaX = Math.abs(e.touches[0].clientX - touchStartX); // Horizontal movement
-      let timeDiff = new Date().getTime() - touchStartTime; // Swipe duration
-
-      let isHardSwipe = deltaY > 100 && timeDiff < 250; // Stronger & faster swipe
-      let isMostlyVertical = deltaY > deltaX * 3; // Must be mostly vertical
-
-      if (section.scrollTop === 0 && isHardSwipe && isMostlyVertical) {
-        e.preventDefault(); // Stop browser refresh
-
-        if (section.classList.contains("currPlayerDisplaySectionActive")) {
-          section.classList.remove("currPlayerDisplaySectionActive");
-
-          setTimeout(() => {
-            let currentPlayerCnt = document.querySelector(".currentPlayerCnt");
-            if (currentPlayerCnt) {
-              currentPlayerCnt.classList.remove("currentPlayerCntActive");
-              void currentPlayerCnt.offsetWidth; // Force repaint
-              currentPlayerCnt.classList.add("currentPlayerCntActive");
-            } else {
-              console.warn("currentPlayerCnt element not found!");
-            }
-            themeColorFunc();
-            document.body.classList.remove("bodyStylesAdd");
-          }, 300);
-        }
-      }
-    },
-    { passive: false }
-  );
-
-  // ✅ Extra: Prevent pull-to-refresh globally (without affecting sliders)
-  document.addEventListener(
-    "touchmove",
-    function (e) {
-      if (
-        window.scrollY === 0 &&
-        e.touches[0].clientY > touchStartY &&
-        !(e.target.tagName === "INPUT" && e.target.type === "range") // Ignore sliders
-      ) {
-        e.preventDefault(); // Stop pull-to-refresh
-      }
-    },
-    { passive: false }
-  );
-});
+//   // ✅ Extra: Prevent pull-to-refresh globally (without affecting sliders)
+//   document.addEventListener(
+//     "touchmove",
+//     function (e) {
+//       if (
+//         window.scrollY === 0 &&
+//         e.touches[0].clientY > touchStartY &&
+//         !(e.target.tagName === "INPUT" && e.target.type === "range") // Ignore sliders
+//       ) {
+//         e.preventDefault(); // Stop pull-to-refresh
+//       }
+//     },
+//     { passive: false }
+//   );
+// });
 
 //
 //
@@ -806,7 +747,9 @@ function showSongNotification(nowPlaying, audioElement) {
 //
 //
 //
-function addElement() {
+
+// slefCalling function to add elements in the page
+(function () {
   if (window.innerWidth > 768) {
     let element = document.createElement("h3");
     element.textContent = "Your Library";
@@ -820,5 +763,37 @@ function addElement() {
     <svg data-encore-id="icon" role="img" aria-hidden="true" class="e-9640-icon" viewBox="0 0 24 24"><path d="M21.707 2.293a1 1 0 0 1 0 1.414L17.414 8h1.829a1 1 0 0 1 0 2H14V4.757a1 1 0 1 1 2 0v1.829l4.293-4.293a1 1 0 0 1 1.414 0zM2.293 21.707a1 1 0 0 1 0-1.414L6.586 16H4.757a1 1 0 0 1 0-2H10v5.243a1 1 0 0 1-2 0v-1.829l-4.293 4.293a1 1 0 0 1-1.414 0z"></path></svg>
     `;
   }
+})();
+
+async function fetchWikiImage(artistName) {
+  let url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(
+    artistName
+  )}`;
+
+  let response = await fetch(url);
+  let data = await response.json();
+
+  //
+  let artistImageCnt = document.querySelector(".artistImageCnt");
+  let artistBioName = document.querySelector(".artistBioName");
+  let artistBioBottomSingerName = document.querySelector(
+    ".artistBioBottomSingerName"
+  );
+
+  //removeingItems on no image found are
+  let artistBioBottomCnt = document.querySelector(".artistBioBottomCnt");
+  //
+  if (data.thumbnail) {
+    artistImageCnt.classList.remove("artistImageNotFound");
+    artistBioBottomCnt.classList.remove("artistImageNotFound");
+
+    artistImageCnt.style.backgroundImage = `url("${data.thumbnail.source}")`; // ✅ FIXED
+    artistBioName.innerHTML = artistName;
+    artistBioBottomSingerName.innerHTML = artistName;
+  } else {
+    artistImageCnt.classList.add("artistImageNotFound");
+    artistBioBottomCnt.classList.add("artistImageNotFound");
+
+    artistBioName.innerHTML = artistName;
+  }
 }
-addElement();
