@@ -77,12 +77,12 @@ let songsObject = {
     songAudio: `assets/songs/mereLiyeTumKaafiHo.mp3`,
     themeColor: `#a4666d,black`,
   },
-  _295: {
-    songTitle: `295`,
-    singer: `Sidhu Moose Wala`,
-    songCover: `https://i.scdn.co/image/ab67616d0000b2731d1cc2e40d533d7bcebf5dae`,
-    songAudio: `assets/songs/_295.mp3`,
-    themeColor: `#c81810,black`,
+  goat: {
+    songTitle: `G.O.A.T`,
+    singer: `Diljit Dosanjh`,
+    songCover: `https://i1.sndcdn.com/artworks-000800613163-d8xdho-t500x500.jpg`,
+    songAudio: `assets/songs/goat.mp3`,
+    themeColor: `#D02020,black`,
   },
   malang: {
     songTitle: `Malang`,
@@ -90,5 +90,19 @@ let songsObject = {
     songCover: `https://i.scdn.co/image/ab67616d0000b27399655481a2151203ed89351d`,
     songAudio: `assets/songs/malang.mp3`,
     themeColor: `#002890,black`,
+  },
+  faded: {
+    songTitle: `Faded`,
+    singer: `Alan Walker`,
+    songCover: `https://m.media-amazon.com/images/M/MV5BYjQ5NTU0MjctZWFhMC00M2VjLWJhMWUtYWRhYjNkNWE3NmUwXkEyXkFqcGc@._V1_.jpg`,
+    songAudio: `assets/songs/faded.mp3`,
+    themeColor: `#104880,black`,
+  },
+  lovely: {
+    songTitle: `Lovely`,
+    singer: `Billie Eilish`,
+    songCover: `https://c.saavncdn.com/947/lovely-English-2018-20180418150240-500x500.jpg`,
+    songAudio: `assets/songs/lovely.mp3`,
+    themeColor: `#7B776E,black`,
   },
 };
