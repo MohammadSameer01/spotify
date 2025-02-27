@@ -165,7 +165,6 @@ boxes.forEach((box) => {
 //
 //
 let songProgressBar = document.querySelector(".songProgressBar");
-
 function updateCurrentPlayerCnt(
   currentSongName,
   currentSingerName,
@@ -215,6 +214,7 @@ function updateCurrentPlayerCnt(
   //
   //
   //Functions Called
+  fetchLyricsApi(currentSongName, currentSingerName);
   updateSongTime(playingSong);
   currPlayerSmallSizeBackground();
 }
@@ -383,6 +383,15 @@ function currPlayerBackgroundColor() {
 
   currPlayerDisplaySection.style.background = `linear-gradient(${color1},${color2})`;
 
+  let currPlayerLyricsCnt = document.querySelector(".currPlayerLyricsCnt");
+  currPlayerLyricsCnt.style.background = `${color1}`;
+
+  let lyricsCnt = document.querySelector(".lyricsCnt");
+  lyricsCnt.style.setProperty(
+    "--after-bg",
+    `linear-gradient(to bottom, rgba(0, 0, 0, 0), ${color1})`
+  );
+
   if (
     currPlayerDisplaySection.classList.contains(
       "currPlayerDisplaySectionActive"
@@ -439,20 +448,6 @@ currPlayerDropDownCnt.addEventListener("click", () => {
 //
 //
 //
-// function openFullscreen() {
-//   if (document.documentElement.requestFullscreen) {
-//     document.documentElement.requestFullscreen();
-//   } else if (document.documentElement.mozRequestFullScreen) {
-//     // Firefox
-//     document.documentElement.mozRequestFullScreen();
-//   } else if (document.documentElement.webkitRequestFullscreen) {
-//     // Chrome, Safari
-//     document.documentElement.webkitRequestFullscreen();
-//   } else if (document.documentElement.msRequestFullscreen) {
-//     // IE/Edge
-//     document.documentElement.msRequestFullscreen();
-//   }
-// }
 
 function changeSongFunction() {
   let songs = Object.keys(songsObject);
@@ -523,78 +518,6 @@ changeSongClass.forEach((btn) => {
 //
 //
 //
-// document.addEventListener("DOMContentLoaded", function () {
-//   let touchStartY = 0;
-//   let touchStartX = 0;
-//   let touchStartTime = 0;
-
-//   document.addEventListener(
-//     "touchstart",
-//     function (e) {
-//       touchStartY = e.touches[0].clientY;
-//       touchStartX = e.touches[0].clientX;
-//       touchStartTime = new Date().getTime(); // Capture start time
-//     },
-//     { passive: false }
-//   );
-
-//   document.addEventListener(
-//     "touchmove",
-//     function (e) {
-//       let section = document.getElementById("currPlayerDisplaySection");
-//       if (!section) return;
-
-//       // ✅ Ignore sliders & input elements
-//       if (e.target.tagName === "INPUT" && e.target.type === "range") {
-//         return; // Allow range sliders to work normally
-//       }
-
-//       let deltaY = e.touches[0].clientY - touchStartY;
-//       let deltaX = Math.abs(e.touches[0].clientX - touchStartX); // Horizontal movement
-//       let timeDiff = new Date().getTime() - touchStartTime; // Swipe duration
-
-//       let isHardSwipe = deltaY > 100 && timeDiff < 250; // Stronger & faster swipe
-//       let isMostlyVertical = deltaY > deltaX * 3; // Must be mostly vertical
-
-//       if (section.scrollTop === 0 && isHardSwipe && isMostlyVertical) {
-//         e.preventDefault(); // Stop browser refresh
-
-//         if (section.classList.contains("currPlayerDisplaySectionActive")) {
-//           section.classList.remove("currPlayerDisplaySectionActive");
-
-//           setTimeout(() => {
-//             let currentPlayerCnt = document.querySelector(".currentPlayerCnt");
-//             if (currentPlayerCnt) {
-//               currentPlayerCnt.classList.remove("currentPlayerCntActive");
-//               void currentPlayerCnt.offsetWidth; // Force repaint
-//               currentPlayerCnt.classList.add("currentPlayerCntActive");
-//             } else {
-//               console.warn("currentPlayerCnt element not found!");
-//             }
-//             themeColorFunc();
-//             document.body.classList.remove("bodyStylesAdd");
-//           }, 300);
-//         }
-//       }
-//     },
-//     { passive: false }
-//   );
-
-//   // ✅ Extra: Prevent pull-to-refresh globally (without affecting sliders)
-//   document.addEventListener(
-//     "touchmove",
-//     function (e) {
-//       if (
-//         window.scrollY === 0 &&
-//         e.touches[0].clientY > touchStartY &&
-//         !(e.target.tagName === "INPUT" && e.target.type === "range") // Ignore sliders
-//       ) {
-//         e.preventDefault(); // Stop pull-to-refresh
-//       }
-//     },
-//     { passive: false }
-//   );
-// });
 
 //
 //
@@ -604,54 +527,6 @@ changeSongClass.forEach((btn) => {
 //
 //
 //
-let touchStartX = 0;
-let touchStartTime = 0;
-const SWIPE_DISTANCE_THRESHOLD = 100; // Minimum pixels for strong swipe
-const SWIPE_TIME_THRESHOLD = 300; // Max time (ms) for a fast swipe
-document.addEventListener(
-  "touchstart",
-  function (e) {
-    let target = e.target.closest(".currentPlayerCnt"); // Check if the touch is inside .currentPlayerCnt
-    if (!target) return; // If not inside, ignore the event
-
-    touchStartX = e.touches[0].clientX;
-    touchStartTime = new Date().getTime(); // Record time of touch start
-
-    target.setAttribute("data-swiping", "true"); // Mark element as swiping
-  },
-  { passive: false }
-);
-
-document.addEventListener(
-  "touchend",
-  function (e) {
-    let currentPlayerCnt = document.querySelector(".currentPlayerCnt");
-    if (
-      !currentPlayerCnt ||
-      currentPlayerCnt.getAttribute("data-swiping") !== "true"
-    )
-      return;
-
-    let touchEndX = e.changedTouches[0].clientX;
-    let swipeDistance = touchEndX - touchStartX;
-    let swipeTime = new Date().getTime() - touchStartTime; // Calculate swipe duration
-
-    // Detect a **strong** swipe: Fast (less than threshold time) and long (more than threshold distance)
-    if (
-      Math.abs(swipeDistance) > SWIPE_DISTANCE_THRESHOLD &&
-      swipeTime < SWIPE_TIME_THRESHOLD
-    ) {
-      changeSongFunction(); // Trigger song change on strong swipe
-
-      setTimeout(() => {
-        themeColorFunc();
-      }, 300);
-    }
-
-    currentPlayerCnt.removeAttribute("data-swiping"); // Reset swiping state
-  },
-  { passive: false }
-);
 
 function songChangeAnimationRight() {
   currPlayerSongCoverCnt = document.querySelector(".currPlayerSongCoverCnt");
@@ -796,4 +671,81 @@ async function fetchWikiImage(artistName) {
 
     artistBioName.innerHTML = artistName;
   }
+}
+
+async function fetchLyricsApi(songName, singerName) {
+  let apiUrl = `https://api.lyrics.ovh/v1/${singerName}/${songName}`;
+  //
+  let currPlayerLyricsCnt = document.querySelector(".currPlayerLyricsCnt");
+  let lyricsCnt = document.querySelector(".lyricsCnt");
+
+  try {
+    let response = await fetch(apiUrl);
+    let data = await response.json();
+
+    if (data.lyrics) {
+      currPlayerLyricsCnt.style.display = "flex";
+      lyricsCnt.innerHTML = `${data.lyrics}`;
+    } else {
+      currPlayerLyricsCnt.style.display = "none";
+    }
+  } catch (error) {
+    console.error("Error fetching lyrics:", error);
+  }
+}
+
+let fullScreenLyricsBtn = document.querySelector(".fullScreenLyricsBtn");
+fullScreenLyricsBtn.addEventListener("click", lyricsFullScreen);
+let hideLyricsCntSvgCnt = document.querySelector(".hideLyricsCntSvgCnt");
+hideLyricsCntSvgCnt.addEventListener("click", hideLyricsFullScreen);
+
+function lyricsFullScreen() {
+  fullScreenLyricsBtn.style.display = "none";
+
+  let currPlayerLyricsCnt = document.querySelector(".currPlayerLyricsCnt");
+  // currPlayerLyricsCnt.style.transform = "translateY(-100%)";
+  currPlayerLyricsCnt.style.scale = "0";
+  setTimeout(() => {
+    currPlayerLyricsCnt.classList.add("currPlayerLyricsCntActive");
+    // currPlayerLyricsCnt.style.transform = "";
+    currPlayerLyricsCnt.style.scale = "";
+  }, 300);
+
+  //
+  currPlayerDisplaySection.style.overflow = "hidden";
+  currPlayerDisplaySection.scrollTop = 0;
+  //
+  let currPlayerH3 = document.querySelector(".currPlayerLyricsCnt h3");
+  currPlayerH3.style.display = "none";
+  //
+  currPlayerLyricsHeader = document.querySelector(".currPlayerLyricsHeader");
+  currPlayerLyricsHeader.classList.add("currPlayerLyricsHeaderActive");
+  //
+  let lyricsCnt = document.querySelector(".lyricsCnt");
+  lyricsCnt.classList.add("lyricsCntActive");
+  lyricsCnt.style.setProperty("--after-bg", "transparent");
+}
+function hideLyricsFullScreen() {
+  fullScreenLyricsBtn.style.display = "";
+
+  let currPlayerLyricsCnt = document.querySelector(".currPlayerLyricsCnt");
+  currPlayerLyricsCnt.style.transform = "translateY(100%)";
+  setTimeout(() => {
+    currPlayerLyricsCnt.classList.remove("currPlayerLyricsCntActive");
+    currPlayerLyricsCnt.style.transform = "";
+  }, 300);
+  //
+  currPlayerDisplaySection.style.overflow = "";
+  currPlayerDisplaySection.scrollTop = 0;
+  //
+  let currPlayerH3 = document.querySelector(".currPlayerLyricsCnt h3");
+  currPlayerH3.style.display = "";
+  //
+  currPlayerLyricsHeader = document.querySelector(".currPlayerLyricsHeader");
+  currPlayerLyricsHeader.classList.remove("currPlayerLyricsHeaderActive");
+  //
+  let lyricsCnt = document.querySelector(".lyricsCnt");
+  lyricsCnt.classList.remove("lyricsCntActive");
+
+  currPlayerBackgroundColor();
 }
