@@ -78,7 +78,7 @@ let songsObject = {
     themeColor: `#a4666d,black`,
   },
   goat: {
-    songTitle: `G.O.A.T`,
+    songTitle: `GOAT`,
     singer: `Diljit Dosanjh`,
     songCover: `https://i1.sndcdn.com/artworks-000800613163-d8xdho-t500x500.jpg`,
     songAudio: `assets/songs/goat.mp3`,
