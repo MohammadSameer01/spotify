@@ -1,5 +1,5 @@
 let songsObject = {
-  Cheques: {
+  cheques: {
     songTitle: `Cheques`,
     singer: `Shubh`,
     songCover: `https://i.scdn.co/image/ab67616d0000b2731a8c4618eda885a406958dd0`,
@@ -104,5 +104,19 @@ let songsObject = {
     songCover: `https://c.saavncdn.com/947/lovely-English-2018-20180418150240-500x500.jpg`,
     songAudio: `assets/songs/lovely.mp3`,
     themeColor: `#7B776E,black`,
+  },
+  hymnForTheWeekend: {
+    songTitle: `Hymn for the Weekend`,
+    singer: `Coldplay`,
+    songCover: `https://c.saavncdn.com/141/A-Head-Full-Of-Dreams-English-2015-500x500.jpg`,
+    songAudio: `assets/songs/hymnForTheWeekend.mp3`,
+    themeColor: `#2060C8,black`,
+  },
+  onMyWay: {
+    songTitle: `On My Way`,
+    singer: `Alan Walker`,
+    songCover: `https://c.saavncdn.com/866/On-My-Way-English-2019-20190308195918-500x500.jpg`,
+    songAudio: `assets/songs/onMyWay.mp3`,
+    themeColor: `#1C7FA9,black`,
   },
 };
