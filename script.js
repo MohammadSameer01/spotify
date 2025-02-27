@@ -32,7 +32,6 @@ function loadHomePageSongs() {
     let singer = songDetails.singer;
     let songAudio = songDetails.songAudio;
     let songCoverImage = songDetails.songCover;
-    // let coverImageALTText = `Cover image for the song '${songTitle}' by ${singer}`;
 
     let alternateTextArray = [
       `Official cover art for the song '${songTitle}' by ${singer} featuring bold typography with a dark and intense aesthetic`,
@@ -655,6 +654,8 @@ async function fetchWikiImage(artistName) {
     ".artistBioBottomSingerName"
   );
 
+  artistFollowFunc(artistName);
+
   //removeingItems on no image found are
   let artistBioBottomCnt = document.querySelector(".artistBioBottomCnt");
   //
@@ -686,6 +687,7 @@ async function fetchLyricsApi(songName, singerName) {
     if (data.lyrics) {
       currPlayerLyricsCnt.style.display = "flex";
       lyricsCnt.innerHTML = `${data.lyrics}`;
+      console.log(data.lyrics);
     } else {
       currPlayerLyricsCnt.style.display = "none";
     }
@@ -748,4 +750,47 @@ function hideLyricsFullScreen() {
   lyricsCnt.classList.remove("lyricsCntActive");
 
   currPlayerBackgroundColor();
+}
+
+let artistBioFollowBtn = document.querySelector(".artistBioFollowBtn");
+document.addEventListener("DOMContentLoaded", function () {
+  const followButtons = document.querySelectorAll(".artistBioFollowBtn");
+
+  // Your nested object example
+  let songs = songsObject;
+
+  followButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+      const singerName = document
+        .querySelector(".cdSingerName")
+        ?.innerHTML.trim();
+
+      if (!singerName) return;
+
+      // Update all matching singers
+      for (let key in songs) {
+        if (songs[key].singer === singerName) {
+          songs[key].isFollow = !songs[key].isFollow; // Toggle value
+          artistFollowFunc(singerName);
+        }
+      }
+    });
+  });
+});
+
+for (let key in songsObject) {
+  let s = songsObject[key];
+  s.isFollow = false;
+}
+
+function artistFollowFunc(artistName) {
+  for (let key in songsObject) {
+    if (songsObject[key].singer === artistName) {
+      if (songsObject[key].isFollow == true) {
+        artistBioFollowBtn.innerText = "Following";
+      } else {
+        artistBioFollowBtn.innerText = "Follow";
+      }
+    }
+  }
 }
