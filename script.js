@@ -129,10 +129,7 @@ boxes.forEach((box) => {
       }
 
       // Create a new Audio object with the song's audio file
-      const sanitizedSongTitle = songTitle.replace(/\s+/g, "");
-      const currentAudioUrl = `assets/songs/${sanitizedSongTitle}.mp3`;
-      currentAudio = new Audio(currentAudioUrl);
-
+      currentAudio = new Audio(currentSong.songAudio);
       nowPlaying = currentSong;
 
       // Listen for the 'canplaythrough' event before playing
@@ -457,8 +454,8 @@ function changeSongFunction() {
 
   // unusable variables
   let newSongCheck = songsObject[randomKey];
-  // newSongCheck = newSongCheck.songAudio;
-  // newSongCheck = newSongCheck.split("/").pop();
+  newSongCheck = newSongCheck.songAudio;
+  newSongCheck = newSongCheck.split("/").pop();
   let prevSong = currentAudio.src;
   prevSong = prevSong.split("/").pop();
   //
@@ -469,12 +466,7 @@ function changeSongFunction() {
       currentAudio.currentTime = 0; // Reset audio to start from the beginning
 
       currentSong = songsObject[randomKey];
-
-      let sanitizedSongTitle = currentSong.songTitle;
-      sanitizedSongTitle = sanitizedSongTitle.replace(/\s+/g, "");
-      const currentAudioUrl = `assets/songs/${sanitizedSongTitle}.mp3`;
-      currentAudio = new Audio(currentAudioUrl);
-
+      currentAudio = new Audio(currentSong.songAudio);
       nowPlaying = currentSong;
       // Listen for the 'canplaythrough' event before playing
       currentAudio.addEventListener("canplaythrough", () => {
@@ -695,6 +687,7 @@ async function fetchLyricsApi(songName, singerName) {
     if (data.lyrics) {
       currPlayerLyricsCnt.style.display = "flex";
       lyricsCnt.innerHTML = `${data.lyrics}`;
+      console.log(data.lyrics);
     } else {
       currPlayerLyricsCnt.style.display = "none";
     }
