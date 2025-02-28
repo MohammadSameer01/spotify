@@ -129,7 +129,10 @@ boxes.forEach((box) => {
       }
 
       // Create a new Audio object with the song's audio file
-      currentAudio = new Audio(currentSong.songAudio);
+      const sanitizedSongTitle = songTitle.replace(/\s+/g, "");
+      const currentAudioUrl = `assets/songs/${sanitizedSongTitle}.mp3`;
+      currentAudio = new Audio(currentAudioUrl);
+
       nowPlaying = currentSong;
 
       // Listen for the 'canplaythrough' event before playing
@@ -454,8 +457,8 @@ function changeSongFunction() {
 
   // unusable variables
   let newSongCheck = songsObject[randomKey];
-  newSongCheck = newSongCheck.songAudio;
-  newSongCheck = newSongCheck.split("/").pop();
+  // newSongCheck = newSongCheck.songAudio;
+  // newSongCheck = newSongCheck.split("/").pop();
   let prevSong = currentAudio.src;
   prevSong = prevSong.split("/").pop();
   //
@@ -466,7 +469,12 @@ function changeSongFunction() {
       currentAudio.currentTime = 0; // Reset audio to start from the beginning
 
       currentSong = songsObject[randomKey];
-      currentAudio = new Audio(currentSong.songAudio);
+
+      let sanitizedSongTitle = currentSong.songTitle;
+      sanitizedSongTitle = sanitizedSongTitle.replace(/\s+/g, "");
+      const currentAudioUrl = `assets/songs/${sanitizedSongTitle}.mp3`;
+      currentAudio = new Audio(currentAudioUrl);
+
       nowPlaying = currentSong;
       // Listen for the 'canplaythrough' event before playing
       currentAudio.addEventListener("canplaythrough", () => {
@@ -596,23 +604,6 @@ function showSongNotification(nowPlaying, audioElement) {
       updatePlayIcon();
     });
   }
-
-  // ✅ Show Web Notification (Only Song Info)
-  if (Notification.permission === "granted") {
-    new Notification(nowPlaying.songTitle, {
-      body: nowPlaying.singer,
-      icon: nowPlaying.songCover,
-    });
-  } else if (Notification.permission !== "denied") {
-    Notification.requestPermission().then((permission) => {
-      if (permission === "granted") {
-        new Notification(nowPlaying.songTitle, {
-          body: nowPlaying.singer,
-          icon: nowPlaying.songCover,
-        });
-      }
-    });
-  }
 }
 
 //
@@ -687,7 +678,6 @@ async function fetchLyricsApi(songName, singerName) {
     if (data.lyrics) {
       currPlayerLyricsCnt.style.display = "flex";
       lyricsCnt.innerHTML = `${data.lyrics}`;
-      console.log(data.lyrics);
     } else {
       currPlayerLyricsCnt.style.display = "none";
     }
