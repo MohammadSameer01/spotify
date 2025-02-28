@@ -178,9 +178,22 @@ header {
 .currPlayerHeader svg {
   height: 24px;
 }
+
 .currPlayerMiddleCnt {
   align-content: center;
 }
+.currPlayerMiddleCntActive {
+  position: absolute;
+  z-index: 1;
+  height: 36px;
+  width: fit-content;
+  left: 50%;
+  text-align: center;
+  transform: translate(-50%);
+  max-width: 68%;
+  overflow: hidden;
+}
+
 .currPlayerSongName {
   font-size: 0.75em;
   font-weight: 600;
@@ -261,6 +274,12 @@ header {
   /*  */
   margin: 0;
 }
+.songRangeCntActive {
+  position: absolute;
+  width: calc(100% - 48px);
+  bottom: 146px;
+  z-index: 1;
+}
 .songRangeCnt input[type="range"] {
   -webkit-appearance: none;
   width: 100%;
@@ -294,7 +313,13 @@ header {
   justify-content: space-between;
   flex-wrap: wrap;
 }
+.audioPlayPauseControlsCntActive {
+  position: absolute;
+  width: calc(100% - 48px);
 
+  bottom: 0;
+  z-index: 1;
+}
 .audioControlIcon {
   height: 40px;
   aspect-ratio: 1;
@@ -418,7 +443,6 @@ header {
 /*  */
 /*  */
 .currPlayerLyricsCnt {
-  background: red;
   border-radius: 12px;
   margin: 8px;
   margin-bottom: 16px;
@@ -456,6 +480,10 @@ header {
 .currPlayerLyricsHeaderActive {
   display: inherit;
 }
+.currPlayerLyricsHeaderForMobile {
+  position: initial !important;
+  margin: 0 8px;
+}
 
 .hideLyricsCntSvgCnt {
   height: 36px;
@@ -483,6 +511,14 @@ header {
   overflow: auto;
   padding: 8px;
   padding-top: 60px;
+}
+.lyricsCntForMobile {
+  height: calc(100% - 146px - 64px - 36px) !important;
+  overflow: auto;
+  padding: 8px;
+  padding-top: 0 !important;
+  margin: 0 8px;
+  margin-top: -4px;
 }
 .lyricsCnt::after {
   content: "";
