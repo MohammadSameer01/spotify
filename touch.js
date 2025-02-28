@@ -65,6 +65,7 @@ currPlayerDisplaySection.addEventListener("touchend", () => {
 
       themeColorFunc();
       document.body.classList.remove("bodyStylesAdd");
+      hideLyricsFullScreen();
       setTimeout(() => {
         currentPlayerCnt.classList.add("currentPlayerCntActive");
       }, 200);
