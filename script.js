@@ -503,6 +503,7 @@ function changeSongFunction() {
   }, 300);
   //
   showSongNotification(nowPlaying, currentAudio);
+  hideLyricsFullScreen();
 }
 
 let changeSongClass = document.querySelectorAll(".changeSongClass");
@@ -677,7 +678,7 @@ async function fetchLyricsApi(songName, singerName) {
 
     if (data.lyrics) {
       currPlayerLyricsCnt.style.display = "flex";
-      lyricsCnt.innerHTML = `${data.lyrics}`;
+      lyricsCnt.innerHTML = data.lyrics.replace(/\n/g, "<br>");
     } else {
       currPlayerLyricsCnt.style.display = "none";
     }
@@ -716,6 +717,27 @@ function lyricsFullScreen() {
   let lyricsCnt = document.querySelector(".lyricsCnt");
   lyricsCnt.classList.add("lyricsCntActive");
   lyricsCnt.style.setProperty("--after-bg", "transparent");
+
+  if (
+    window.matchMedia(
+      "(min-width: 320px) and (max-width: 480px) and (min-height: 480px) and (max-height: 940px) and (orientation: portrait)"
+    ).matches
+  ) {
+    let songRangeCnt = document.querySelector(".songRangeCnt");
+    songRangeCnt.classList.add("songRangeCntActive");
+
+    let audioPlayPauseControlsCnt = document.querySelector(
+      ".audioPlayPauseControlsCnt"
+    );
+    audioPlayPauseControlsCnt.classList.add("audioPlayPauseControlsCntActive");
+
+    let currPlayerMiddleCnt = document.querySelector(".currPlayerMiddleCnt");
+    currPlayerMiddleCnt.classList.add("currPlayerMiddleCntActive");
+
+    //
+    lyricsCnt.classList.add("lyricsCntForMobile");
+    currPlayerLyricsHeader.classList.add("currPlayerLyricsHeaderForMobile");
+  }
 }
 function hideLyricsFullScreen() {
   fullScreenLyricsBtn.style.display = "";
@@ -739,6 +761,19 @@ function hideLyricsFullScreen() {
   let lyricsCnt = document.querySelector(".lyricsCnt");
   lyricsCnt.classList.remove("lyricsCntActive");
 
+  let songRangeCnt = document.querySelector(".songRangeCnt");
+  songRangeCnt.classList.remove("songRangeCntActive");
+  let audioPlayPauseControlsCnt = document.querySelector(
+    ".audioPlayPauseControlsCnt"
+  );
+
+  let currPlayerMiddleCnt = document.querySelector(".currPlayerMiddleCnt");
+  currPlayerMiddleCnt.classList.remove("currPlayerMiddleCntActive");
+
+  audioPlayPauseControlsCnt.classList.remove("audioPlayPauseControlsCntActive");
+  lyricsCnt.classList.remove("lyricsCntForMobile");
+
+  //
   currPlayerBackgroundColor();
 }
 
