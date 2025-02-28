@@ -187,7 +187,9 @@ header {
 }
 .currPlayerSongCoverCnt {
   transition: 0.3s ease;
-  height: calc(100dvh - 54px - 291.6px); /*total height - header height */
+  height: calc(
+    100dvh - 54px - 291.6px - 12px
+  ); /*total height - header height */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -217,11 +219,13 @@ header {
 .currPlayerSongCoverCnt img {
   object-fit: contain;
   width: 95%;
+  border-radius: 8px !important ;
 }
 
 /*  */
 .currPlayerControlsCnt {
   padding: 0 12px;
+  margin-top: 12px;
 }
 
 .controlsSongDetailsCnt {
@@ -349,6 +353,7 @@ header {
   border-radius: 12px;
   overflow: hidden;
   margin: 0 8px;
+  margin-bottom: 16px;
 }
 
 .artistImageNotFound {
@@ -415,7 +420,8 @@ header {
 .currPlayerLyricsCnt {
   background: red;
   border-radius: 12px;
-  margin: 16px 8px;
+  margin: 8px;
+  margin-bottom: 16px;
   padding: 16px;
   display: flex;
   flex-direction: column;
