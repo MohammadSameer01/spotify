@@ -1,3 +1,6 @@
+*{
+  display:none;
+}
 main {
   padding: 12px;
 }
