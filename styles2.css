@@ -244,11 +244,27 @@ main {
     height: 16px;
   }
   /*  */
-}
-@media (max-height: 450px) {
-  * {
-    /* outline: 1px solid; */
+  .currPlayerLyricsCnt {
+    width: 340px;
+    height: 40%;
+    margin-left: auto;
+    margin-top: 36px;
   }
+  .currPlayerLyricsCntActive {
+    width: 50%;
+    margin-top: 0;
+    border-radius: 12px;
+    box-shadow: 0 0 12px -6px black;
+
+    height: calc(100% - 126px - 60px - 12px) !important;
+    top: 12px !important ;
+    right: 12px !important;
+  }
+  .lyricsCnt::-webkit-scrollbar {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-height: 590px) {
   header {
     display: none;
   }
@@ -298,6 +314,76 @@ main {
     width: 100%;
   }
   .cdSongName {
+    width: 100%;
+  }
+  /*  */
+  .currPlayerLyricsCnt {
+    height: 60px;
+    width: 140px;
+    margin-top: 60px;
+    z-index: 1;
+    position: absolute;
+    right: 12px;
+    bottom: calc(0px + 62px + 52px);
+    scale: 0.8;
+  }
+  .currPlayerLyricsCntActive {
+    /* height: calc(100% - 62px - 64px - 24px) !important; */
+    height: calc(100% - 24px) !important;
+    width: 40% !important;
+    top: 12px !important ;
+    margin-top: 0 !important;
+    scale: 1 !important;
+    left: 12px !important;
+    margin: 0 !important;
+  }
+  .currPlayerLyricsCnt h3 {
+    display: none;
+  }
+  .fullScreenLyricsBtn {
+    margin-top: -16px;
+  }
+}
+
+@media (max-width: 767px) and (max-height: 389px) {
+  header {
+    display: none;
+  }
+  .currPlayerDisplaySectionActive {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .currPlayerHeader {
+    width: 100%;
+    justify-content: right;
+  }
+  .currPlayerMiddleCnt,
+  .currPlayerMenuCnt {
+    display: none;
+  }
+  .currPlayerSongCoverCnt {
+    width: 40%;
+    height: calc(100% - 50px);
+    overflow: hidden;
+  }
+  .currPlayerControlsCnt {
+    width: 60%;
+    margin-top: auto;
+    margin-bottom: 12px;
+  }
+  .extraIcons {
+    display: none;
+  }
+  .currPlayerLyricsCnt,
+  .aboutArtistCnt {
+    width: calc(50% - 12px);
+    margin: 0;
+    margin-right: 12px;
+
+    display: none !important;
+  }
+  .currPlayerLyricsCntActive {
     width: 100%;
   }
 }
