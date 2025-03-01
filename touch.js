@@ -94,9 +94,7 @@ let startX = 0,
   currentX = 0,
   totalX = 0;
 const SWIPE_MIN_DISTANCE = 55;
-
 const songNameAndTitle = document.querySelector(".swipeClass");
-
 if (currentPlayerCnt) {
   currentPlayerCnt.addEventListener("touchstart", (e) => {
     startX = e.touches[0].clientX;
@@ -141,3 +139,43 @@ if (currentPlayerCnt) {
     totalX = 0;
   });
 }
+
+//
+//
+//
+//
+// -------------To prevent broswer navigation on back gesture---------------------------------
+// Push a dummy state to history so we can detect the back action
+history.pushState({ page: "custom", scrollY: window.scrollY }, "", "");
+// Listen for the back button or swipe gesture
+window.addEventListener("popstate", (event) => {
+  if (
+    currPlayerDisplaySection.classList.contains(
+      "currPlayerDisplaySectionActive"
+    )
+  ) {
+    // Save the current scroll position
+    const scrollPosition = window.scrollY;
+
+    // Instead of going back, remove the class
+    currPlayerDisplaySection.classList.remove("currPlayerDisplaySectionActive");
+
+    themeColorFunc();
+    document.body.classList.remove("bodyStylesAdd");
+    hideLyricsFullScreen();
+    setTimeout(() => {
+      currentPlayerCnt.classList.add("currentPlayerCntActive");
+    }, 200);
+
+    // Push the state again so back gesture doesn't exit the app
+    history.pushState({ page: "custom", scrollY: scrollPosition }, "", "");
+
+    // Restore the scroll position after a small delay
+    setTimeout(() => {
+      window.scrollTo(0, scrollPosition);
+    }, 10);
+
+    // Prevent default navigation
+    event.preventDefault();
+  }
+});
