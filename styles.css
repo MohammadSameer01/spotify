@@ -277,8 +277,9 @@ header {
 .songRangeCntActive {
   position: absolute;
   width: calc(100% - 48px);
-  bottom: 146px;
+  bottom: calc(16px + 62px);
   z-index: 1;
+  padding: 0;
 }
 .songRangeCnt input[type="range"] {
   -webkit-appearance: none;
@@ -313,13 +314,7 @@ header {
   justify-content: space-between;
   flex-wrap: wrap;
 }
-.audioPlayPauseControlsCntActive {
-  position: absolute;
-  width: calc(100% - 48px);
 
-  bottom: 0;
-  z-index: 1;
-}
 .audioControlIcon {
   height: 40px;
   aspect-ratio: 1;
@@ -342,6 +337,15 @@ header {
   align-items: center;
   border-radius: 50%;
   cursor: pointer;
+}
+
+.cdPlayPauseBtnActive {
+  position: absolute;
+
+  bottom: 16px;
+  z-index: 1;
+  left: 50%;
+  transform: translate(-50%);
 }
 .cdPlayPauseBtn svg {
   fill: black;
@@ -493,6 +497,7 @@ header {
   align-items: center;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 }
 .currPlayerLyricsHeader svg {
   height: 24px;
@@ -513,13 +518,14 @@ header {
   padding-top: 60px;
 }
 .lyricsCntForMobile {
-  height: calc(100% - 146px - 64px - 36px) !important;
+  height: calc(100dvh - 16px - 62px - 40px - 60px) !important;
   overflow: auto;
   padding: 8px;
   padding-top: 0 !important;
   margin: 0 8px;
   margin-top: -4px;
 }
+
 .lyricsCnt::after {
   content: "";
   position: absolute;
@@ -540,4 +546,5 @@ header {
   width: fit-content;
   padding: 9px 18px;
   border-radius: 28px;
+  cursor: pointer;
 }
