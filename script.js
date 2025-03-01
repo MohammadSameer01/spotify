@@ -155,6 +155,8 @@ boxes.forEach((box) => {
 
       // Example: Call the function when a song starts playing
       showSongNotification(nowPlaying, currentAudio);
+
+      songBoxStyling();
     } else {
       alert("Song not found.");
     }
@@ -500,6 +502,7 @@ function changeSongFunction() {
     );
     updatePageTitle();
     currPlayerBackgroundColor();
+    songBoxStyling();
   }, 300);
   //
   showSongNotification(nowPlaying, currentAudio);
@@ -726,10 +729,8 @@ function lyricsFullScreen() {
     let songRangeCnt = document.querySelector(".songRangeCnt");
     songRangeCnt.classList.add("songRangeCntActive");
 
-    let audioPlayPauseControlsCnt = document.querySelector(
-      ".audioPlayPauseControlsCnt"
-    );
-    audioPlayPauseControlsCnt.classList.add("audioPlayPauseControlsCntActive");
+    let cdPlayPauseBtn = document.querySelector(".cdPlayPauseBtn ");
+    cdPlayPauseBtn.classList.add("cdPlayPauseBtnActive");
 
     let currPlayerMiddleCnt = document.querySelector(".currPlayerMiddleCnt");
     currPlayerMiddleCnt.classList.add("currPlayerMiddleCntActive");
@@ -770,7 +771,11 @@ function hideLyricsFullScreen() {
   let currPlayerMiddleCnt = document.querySelector(".currPlayerMiddleCnt");
   currPlayerMiddleCnt.classList.remove("currPlayerMiddleCntActive");
 
-  audioPlayPauseControlsCnt.classList.remove("audioPlayPauseControlsCntActive");
+  //
+  let cdPlayPauseBtn = document.querySelector(".cdPlayPauseBtn ");
+  cdPlayPauseBtn.classList.remove("cdPlayPauseBtnActive");
+  //
+
   lyricsCnt.classList.remove("lyricsCntForMobile");
 
   //
@@ -818,4 +823,32 @@ function artistFollowFunc(artistName) {
       }
     }
   }
+}
+//
+//
+//
+//
+//
+//
+function songBoxStyling() {
+  setTimeout(() => {
+    // Get the currently open song title
+    let openSongTitle = document
+      .querySelector(".openCurrSongClass .songTitle")
+      ?.innerText.trim();
+
+    if (openSongTitle) {
+      // Loop through all .song elements
+      document.querySelectorAll(".song").forEach((song) => {
+        let songTitle = song.querySelector(".songTitle")?.innerText.trim();
+
+        // Check if the titles match
+        if (songTitle === openSongTitle) {
+          song.querySelector(".songTitle").style.color = "#1ED760";
+        } else {
+          song.querySelector(".songTitle").style.color = "";
+        }
+      });
+    }
+  }, 100);
 }
