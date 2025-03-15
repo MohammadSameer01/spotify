@@ -4,6 +4,7 @@
   --backgroundColor: #121212;
   --textColor: #fff;
   --lightWhiteColor: #b3b3b3;
+  --bodyBgOnTouchMove: #000;
 
   --ffPoppins: "Poppins", serif;
   --ffDMSans: "DM Sans", serif;
@@ -14,18 +15,21 @@
   box-sizing: border-box;
   scroll-behavior: smooth;
   -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 svg {
   fill: var(--textColor);
 }
-
+.greenSvg {
+  fill: #1ed760 !important;
+}
 body {
   background-color: var(--backgroundColor);
   color: var(--textColor);
   font-family: var(--ffPoppins);
 }
 .bodyStylesAdd {
-  background: #000;
+  background: var(--bodyBgOnTouchMove);
   height: 100vh;
   overflow: hidden;
 }
@@ -33,15 +37,45 @@ header {
   height: 70px;
   padding: 12px;
   align-content: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logoContainer {
+  display: flex;
+  align-items: center;
+}
+.logoSvgCnt {
+  height: 42px;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 4px;
 }
 
+.logoContainer svg {
+  height: 36px;
+}
 .greetingsText {
   font-weight: 900;
   font-size: 1.3em;
   font-family: var(--ffDMSans) !important;
   letter-spacing: -0.75px;
 }
-
+.theme-changer-cnt {
+  width: 42px;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.theme-changer-cnt svg {
+  height: 24px;
+}
+/*  */
+/*  */
 #fixedFooter {
   height: 70px;
   position: fixed;
@@ -56,7 +90,6 @@ header {
     transparent,
     var(--backgroundColor) 75%
   ) !important;
-  backdrop-filter: brightness(0.15);
 }
 .footerIconsCnt {
   display: flex;
@@ -101,6 +134,7 @@ header {
   transition: 0.3s ease;
   visibility: hidden;
   cursor: pointer;
+  color: white;
 }
 .currentPlayerCntActive {
   transform: translate(0);
@@ -137,7 +171,9 @@ header {
 }
 .likeAndPlayPauseBtnCnt svg {
   height: 24px;
+  fill: white;
 }
+
 /*  */
 /*  */
 /*  */
@@ -151,9 +187,12 @@ header {
   transition: 0.3s ease;
   transform: translate(0, 90%);
   visibility: hidden;
-  background: var(--backgroundColor);
+  background: #121212;
+  color: #fff;
 }
-
+#currPlayerDisplaySection svg {
+  fill: #fff;
+}
 .currPlayerDisplaySectionActive {
   transform: translate(0) !important;
   z-index: 1 !important;
@@ -266,6 +305,23 @@ header {
   justify-content: center;
   align-items: center;
 }
+@keyframes likedSongAnimation {
+  100% {
+    scale: 1.25;
+    transform: translate(0, -2px);
+  }
+}
+@keyframes disLikedSongAnimation {
+  30% {
+    transform: translate(-2px);
+  }
+  60% {
+    transform: translate(2px);
+  }
+  90% {
+    transform: translate(-2px);
+  }
+}
 
 .songRangeCnt {
   padding: 12px 0;
@@ -331,7 +387,7 @@ header {
 .cdPlayPauseBtn {
   height: 62px;
   aspect-ratio: 1;
-  background: var(--textColor);
+  background: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -341,14 +397,13 @@ header {
 
 .cdPlayPauseBtnActive {
   position: absolute;
-
   bottom: 16px;
   z-index: 1;
   left: 50%;
   transform: translate(-50%);
 }
 .cdPlayPauseBtn svg {
-  fill: black;
+  fill: black !important;
   height: 26px;
 }
 
@@ -541,7 +596,7 @@ header {
 .fullScreenLyricsBtn {
   font-size: 0.75em;
   font-weight: 550;
-  background: var(--textColor);
+  background: white;
   color: black;
   width: fit-content;
   padding: 9px 18px;
