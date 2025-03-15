@@ -31,11 +31,12 @@ main {
   padding: 12px;
   --bgColor: #282828;
   background: var(--bgColor);
+  fill: #fff;
 }
 
 .listName {
   margin-left: 12px;
-  font-size: 0.85em;
+  font-size: 0.95em;
   max-width: calc(100% - 60px);
   text-wrap: nowrap;
   overflow: hidden;
