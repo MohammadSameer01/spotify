@@ -149,7 +149,8 @@ boxes.forEach((box) => {
         currentSong.songTitle,
         currentSong.singer,
         currentSong.songCover,
-        currentAudio
+        currentAudio,
+        currentSong.isLiked
       );
       updatePageTitle();
 
@@ -173,8 +174,15 @@ function updateCurrentPlayerCnt(
   currentSongName,
   currentSingerName,
   songImage,
-  playingSong
+  playingSong,
+  currentSongIsLiked
 ) {
+  if (currentSongIsLiked === true) {
+    likedSongIconStyles(true);
+  } else {
+    likedSongIconStyles(false);
+  }
+
   let currentPlayerImage = document.querySelector(
     ".currentPlayerCnt .songImgCnt img"
   );
@@ -498,7 +506,8 @@ function changeSongFunction() {
       currentSong.songTitle,
       currentSong.singer,
       currentSong.songCover,
-      currentAudio
+      currentAudio,
+      currentSong.isLiked
     );
     updatePageTitle();
     currPlayerBackgroundColor();
@@ -635,8 +644,10 @@ function showSongNotification(nowPlaying, audioElement) {
 })();
 
 async function fetchWikiImage(artistName) {
+  artistName = artistName.split(",");
+  firstArtist = artistName[0];
   let url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(
-    artistName
+    firstArtist
   )}`;
 
   let response = await fetch(url);
@@ -649,7 +660,7 @@ async function fetchWikiImage(artistName) {
     ".artistBioBottomSingerName"
   );
 
-  artistFollowFunc(artistName);
+  artistFollowFunc(firstArtist);
 
   //removeingItems on no image found are
   let artistBioBottomCnt = document.querySelector(".artistBioBottomCnt");
@@ -659,18 +670,20 @@ async function fetchWikiImage(artistName) {
     artistBioBottomCnt.classList.remove("artistImageNotFound");
 
     artistImageCnt.style.backgroundImage = `url("${data.thumbnail.source}")`; // ✅ FIXED
-    artistBioName.innerHTML = artistName;
-    artistBioBottomSingerName.innerHTML = artistName;
+    artistBioName.innerHTML = firstArtist;
+    artistBioBottomSingerName.innerHTML = firstArtist;
   } else {
     artistImageCnt.classList.add("artistImageNotFound");
     artistBioBottomCnt.classList.add("artistImageNotFound");
 
-    artistBioName.innerHTML = artistName;
+    artistBioName.innerHTML = firstArtist;
   }
 }
 
 async function fetchLyricsApi(songName, singerName) {
-  let apiUrl = `https://api.lyrics.ovh/v1/${singerName}/${songName}`;
+  singerName = singerName.split(",");
+  firstSinger = singerName[0];
+  let apiUrl = `https://api.lyrics.ovh/v1/${firstSinger}/${songName}`;
   //
   let currPlayerLyricsCnt = document.querySelector(".currPlayerLyricsCnt");
   let lyricsCnt = document.querySelector(".lyricsCnt");
@@ -793,13 +806,14 @@ document.addEventListener("DOMContentLoaded", function () {
     button.addEventListener("click", function () {
       const singerName = document
         .querySelector(".cdSingerName")
-        ?.innerHTML.trim();
+        ?.innerHTML.trim()
+        .split(",")[0];
 
       if (!singerName) return;
 
       // Update all matching singers
       for (let key in songs) {
-        if (songs[key].singer === singerName) {
+        if (songs[key].singer.split(",")[0] === singerName) {
           songs[key].isFollow = !songs[key].isFollow; // Toggle value
           artistFollowFunc(singerName);
         }
@@ -811,11 +825,13 @@ document.addEventListener("DOMContentLoaded", function () {
 for (let key in songsObject) {
   let s = songsObject[key];
   s.isFollow = false;
+  s.isLiked = false;
 }
 
 function artistFollowFunc(artistName) {
   for (let key in songsObject) {
-    if (songsObject[key].singer === artistName) {
+    let firstSinger = songsObject[key].singer.split(",")[0];
+    if (firstSinger === artistName) {
       if (songsObject[key].isFollow == true) {
         artistBioFollowBtn.innerText = "Following";
       } else {
@@ -852,3 +868,76 @@ function songBoxStyling() {
     }
   }, 100);
 }
+
+//
+//
+//
+let likeSongButtons = document.querySelectorAll(".likeSongButton");
+likeSongButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    toggleSongLike();
+  });
+});
+function toggleSongLike() {
+  let songTitle = document.querySelector(
+    ".currentPlayerCnt .songTitle"
+  ).textContent;
+  let arrayOfSongs = Object.values(songsObject);
+
+  arrayOfSongs.find((key) => {
+    if (key.songTitle === songTitle) {
+      if (key.isLiked === false) {
+        key.isLiked = true;
+        likedSongIconStyles(true);
+      } else {
+        key.isLiked = false;
+        likedSongIconStyles(false);
+      }
+    }
+  });
+  console.log(songsObject);
+}
+
+function likedSongIconStyles(like) {
+  likeSongButtons.forEach((icon) => {
+    if (like === true) {
+      icon.innerHTML = `<svg class = "greenSvg" data-encore-id="icon" role="img" aria-hidden="true" class="e-9640-icon" viewBox="0 0 24 24"><path d="M8.667 1.912a6.257 6.257 0 0 0-7.462 7.677c.24.906.683 1.747 1.295 2.457l7.955 9.482a2.015 2.015 0 0 0 3.09 0l7.956-9.482a6.188 6.188 0 0 0 1.382-5.234l-.49.097.49-.099a6.303 6.303 0 0 0-5.162-4.98h-.002a6.24 6.24 0 0 0-5.295 1.65.623.623 0 0 1-.848 0 6.257 6.257 0 0 0-2.91-1.568z"></path></svg>`;
+      //
+      icon.style.animation = `likedSongAnimation .3s ease`;
+    } else {
+      icon.innerHTML = `<svg data-encore-id="icon" role="img" aria-hidden="true" class="e-9640-icon" viewBox="0 0 24 24">
+              <path d="M5.21 1.57a6.757 6.757 0 0 1 6.708 1.545.124.124 0 0 0 .165 0 6.741 6.741 0 0 1 5.715-1.78l.004.001a6.802 6.802 0 0 1 5.571 5.376v.003a6.689 6.689 0 0 1-1.49 5.655l-7.954 9.48a2.518 2.518 0 0 1-3.857 0L2.12 12.37A6.683 6.683 0 0 1 .627 6.714 6.757 6.757 0 0 1 5.21 1.57zm3.12 1.803a4.757 4.757 0 0 0-5.74 3.725l-.001.002a4.684 4.684 0 0 0 1.049 3.969l.009.01 7.958 9.485a.518.518 0 0 0 .79 0l7.968-9.495a4.688 4.688 0 0 0 1.049-3.965 4.803 4.803 0 0 0-3.931-3.794 4.74 4.74 0 0 0-4.023 1.256l-.008.008a2.123 2.123 0 0 1-2.9 0l-.007-.007a4.757 4.757 0 0 0-2.214-1.194z"></path>
+            </svg>`;
+      //
+      icon.style.animation = `disLikedSongAnimation .3s ease`;
+    }
+  });
+}
+
+//
+//
+//
+//
+let themeChangerCnt = document.querySelector(".theme-changer-cnt");
+themeChangerCnt.addEventListener("click", () => {
+  let root = document.documentElement;
+  let currentBg = getComputedStyle(root)
+    .getPropertyValue("--backgroundColor")
+    .trim();
+
+  if (currentBg === "#121212") {
+    root.style.setProperty("--backgroundColor", "#fff");
+    root.style.setProperty("--textColor", "#121212");
+    root.style.setProperty("--bodyBgOnTouchMove", "#f1f1f1");
+  } else {
+    root.style.setProperty("--backgroundColor", "#121212");
+    root.style.setProperty("--textColor", "#fff");
+    root.style.setProperty("--bodyBgOnTouchMove", "#000");
+  }
+  //
+  themeColorFunc();
+});
+
+document.querySelector(".logoContainer").addEventListener("click", () => {
+  window.location.href = "";
+});
