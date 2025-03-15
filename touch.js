@@ -49,31 +49,40 @@ currPlayerDisplaySection.addEventListener("touchmove", (e) => {
     if (isScrollingDown && isAtTop) {
       isSwiping = true;
       e.preventDefault(); // Prevent page scroll
+      currPlayerDisplaySection.style.transition = `none`;
+      currPlayerDisplaySection.style.height = `100vh`;
+      currPlayerDisplaySection.style.overflow = `hidden`;
+
       currPlayerDisplaySection.style.top = `${totalY}px`;
     }
   }
 });
 
 currPlayerDisplaySection.addEventListener("touchend", () => {
+  currPlayerDisplaySection.style.transition = `all .3s ease`;
+  currPlayerDisplaySection.style.height = ` `;
+  currPlayerDisplaySection.style.overflow = `auto`;
   if (isSwiping) {
     if (totalY >= 80) {
-      // Hide if swiped far enough
       currPlayerDisplaySection.classList.remove(
         "currPlayerDisplaySectionActive"
       );
-      currPlayerDisplaySection.style.top = `0px`;
-
       themeColorFunc();
       document.body.classList.remove("bodyStylesAdd");
       hideLyricsFullScreen();
       setTimeout(() => {
         currentPlayerCnt.classList.add("currentPlayerCntActive");
       }, 200);
-    } else {
-      // Snap back if not enough swipe distance
-      currPlayerDisplaySection.style.top = `0px`;
     }
+
+    currPlayerDisplaySection.style.top = "0px"; // Reset position
   }
+
+  // Reset all swipe-related values
+  startY = 0;
+  currentY = 0;
+  totalY = 0;
+  isSwiping = false;
 });
 
 //---------------  Small currentCnt song change scripts  ------------------------------------------
