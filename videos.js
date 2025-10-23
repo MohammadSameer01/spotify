@@ -62,4 +62,9 @@ const videoSongs = [
     'Saiyaara',
     'Saiyaara Reprise - Female',
     'Ishq',
+    'Faded',
+    'Lovely',
+    'Hymn for the Weekend',
+    'Skyfall',
+    'On My Way'
 ];
