@@ -61,4 +61,5 @@ function updateVideoBackground() {
 const videoSongs = [
     'Saiyaara',
     'Saiyaara Reprise - Female',
+    'Ishq',
 ];
