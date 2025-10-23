@@ -1,4 +1,16 @@
 let songsObject = {
+  saiyaara: {
+    songTitle: `Saiyaara`,
+    singer: `Tanishk Bagchi, Faheem Abdullah`,
+    songCover: `https://c.saavncdn.com/171/Saiyaara-From-Saiyaara-Hindi-2025-20250610140355-500x500.jpg`,
+    themeColor: `#76767b,black`,
+  },
+  saiyaaraReprise: {
+    songTitle: `Saiyaara Reprise - Female`,
+    singer: `Shreya Ghoshal, Tanishk Bagchi`,
+    songCover: `https://c.saavncdn.com/598/Saiyaara-Hindi-2025-20250703061754-500x500.jpg`,
+    themeColor: `#022A5D,black`,
+  },
   faded: {
     songTitle: `Faded`,
     singer: `Alan Walker`,

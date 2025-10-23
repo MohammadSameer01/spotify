@@ -7,6 +7,7 @@ main {
   flex-wrap: wrap;
   gap: 4px;
 }
+
 .list {
   height: 60px;
   width: calc(50% - 2px);
@@ -23,10 +24,12 @@ main {
   border-radius: 6px;
   overflow: hidden;
 }
+
 .listIcon img {
   height: 100%;
   object-fit: contain;
 }
+
 .listIcon svg {
   padding: 12px;
   --bgColor: #282828;
@@ -47,12 +50,14 @@ main {
   padding: 12px 0px;
   margin-top: 24px;
 }
+
 .songsList {
   padding: 6px;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
+
 .song {
   height: 60px;
   border-radius: 6px;
@@ -61,23 +66,28 @@ main {
   position: relative;
   cursor: pointer;
 }
+
 .song:nth-last-child(1) {
   margin-bottom: 116px;
 }
+
 .songImgCnt {
   height: 100%;
   aspect-ratio: 1;
   overflow: hidden;
   border-radius: 6px;
 }
+
 .songImgCnt img {
   height: 100%;
   width: 100%;
   object-fit: cover;
 }
+
 .songImgCnt img[alt*="Cover"] {
   font-size: 0.5em;
 }
+
 .songInfoCnt {
   width: calc(100% - 48px - 20px);
   padding-left: 12px;
@@ -85,6 +95,7 @@ main {
   flex-direction: column;
   justify-content: center;
 }
+
 .songTitle {
   text-wrap: nowrap;
   overflow: hidden;
@@ -93,9 +104,13 @@ main {
   /*  */
   font-weight: 500;
 }
+
 .singerTitle {
   font-size: 0.75em;
   color: gray;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .threeDotsClass {
@@ -106,6 +121,7 @@ main {
   align-content: center;
   padding: 6px;
 }
+
 .threeDotsClass svg {
   width: 5px;
 }
@@ -117,32 +133,37 @@ main {
     background: var(--backgroundColor);
     z-index: 1;
   }
+
   main {
     display: flex;
     flex-direction: row-reverse;
     padding: 48px 24px;
   }
+
   .listsSection {
     width: 40%;
     height: fit-content;
     position: sticky;
     top: calc(70px + 48px);
 
-    min-height: calc(
-      100vh - 70px - 48px - 48px
-    ); /* totalHeight - headerHeight - paddingTop - paddingBottom*/
+    min-height: calc(100vh - 70px - 48px - 48px);
+    /* totalHeight - headerHeight - paddingTop - paddingBottom*/
     margin-left: 20px;
   }
+
   .listsContainer {
     flex-direction: column;
   }
+
   .list {
     width: 100%;
   }
+
   .songsListSection {
     width: 60%;
     border-right: 3px solid rgba(255, 255, 255, 0.25);
   }
+
   .songsListSection h3 {
     margin-top: unset;
   }
@@ -156,9 +177,12 @@ main {
     max-width: calc(40% - 27px);
     right: 24px;
   }
+
   .footerSongActiveStyles {
-    background: none; /* This will get styles from declared before*/
-    backdrop-filter: none; /* This will get styles from declared before*/
+    background: none;
+    /* This will get styles from declared before*/
+    backdrop-filter: none;
+    /* This will get styles from declared before*/
   }
 
   .currentPlayerCnt {
@@ -171,14 +195,17 @@ main {
   #currPlayerDisplaySection {
     transform: translate(0, 100%);
   }
+
   .currPlayerHeader {
     justify-content: right;
   }
+
   .currPlayerMiddleCnt,
   .currPlayerMenuCnt,
   .aboutArtistCnt {
     display: none;
   }
+
   /*  */
 
   .currPlayerSongCoverCnt {
@@ -188,9 +215,11 @@ main {
     bottom: calc(158px + 24px + 60px);
     left: 60px;
   }
+
   .currPlayerSongCoverCnt img {
     width: 100%;
   }
+
   /*  */
   .currPlayerControlsCnt {
     position: absolute;
@@ -198,13 +227,14 @@ main {
     width: calc(100% - 24px);
     margin-bottom: 60px;
   }
+
   .controlsSongDetailsCnt {
     position: absolute;
     left: calc(60px - 12px + 50vh + 36px);
-    top: calc(
-      -96px - 12px - 32px
-    ); /*element height + that imageContainer bottom padding*/
+    top: calc(-96px - 12px - 32px);
+    /*element height + that imageContainer bottom padding*/
   }
+
   .cdSongName {
     font-size: 3em;
     width: 38vw;
@@ -212,11 +242,14 @@ main {
     text-overflow: ellipsis;
     overflow: hidden;
   }
+
   .cdSingerName {
     font-size: 1em;
   }
+
   .cdSongLikedIcon {
-    display: none; /*this pending-----------------------------*/
+    display: none;
+    /*this pending-----------------------------*/
   }
 
   .audioPlayPauseControlsCnt {
@@ -225,15 +258,19 @@ main {
     padding: 0 12px;
     gap: 24px;
   }
+
   .audioControlIcon {
     margin: 0;
   }
+
   .audioPlayPauseControlsCnt svg {
     height: 22px;
   }
+
   .smallSizeIcon svg {
     height: 18px;
   }
+
   .extraIcons {
     position: absolute;
     margin: unset;
@@ -241,9 +278,11 @@ main {
     left: 12px;
     z-index: -1;
   }
+
   .extraIcons svg {
     height: 16px;
   }
+
   /*  */
   .currPlayerLyricsCnt {
     width: 340px;
@@ -251,6 +290,7 @@ main {
     margin-left: auto;
     margin-top: 36px;
   }
+
   .currPlayerLyricsCntActive {
     width: 50%;
     margin-top: 0;
@@ -258,20 +298,28 @@ main {
     box-shadow: 0 0 12px -6px black;
 
     height: calc(100% - 126px - 60px - 12px) !important;
-    top: 12px !important ;
+    top: 12px !important;
     right: 12px !important;
   }
+
   .lyricsCnt::-webkit-scrollbar {
     display: none !important;
   }
+
+  .videoBackgroundActive {
+    display: none;
+  }
 }
+
 @media (min-width: 768px) and (max-height: 590px) {
   header {
     display: none;
   }
+
   main {
     padding: 12px;
   }
+
   .listsSection {
     width: 40%;
     height: fit-content;
@@ -282,9 +330,11 @@ main {
 
     top: 12px;
   }
+
   #fixedFooter {
     display: none;
   }
+
   .currentPlayerCnt {
     bottom: 12px;
   }
@@ -297,26 +347,32 @@ main {
     left: 0;
     padding: 24px;
   }
+
   .currPlayerControlsCnt {
     width: 60%;
     right: 0;
     margin-bottom: 0;
     padding: 12px 36px;
   }
+
   .currPlayerHeader {
     z-index: 1;
     position: inherit;
     right: 12px;
   }
+
   .controlsSongDetailsCnt {
     position: unset;
   }
+
   .controlsSongDetailsCnt div {
     width: 100%;
   }
+
   .cdSongName {
     width: 100%;
   }
+
   /*  */
   .currPlayerLyricsCnt {
     height: 60px;
@@ -328,19 +384,22 @@ main {
     bottom: calc(0px + 62px + 52px);
     scale: 0.8;
   }
+
   .currPlayerLyricsCntActive {
     /* height: calc(100% - 62px - 64px - 24px) !important; */
     height: calc(100% - 24px) !important;
     width: 40% !important;
-    top: 12px !important ;
+    top: 12px !important;
     margin-top: 0 !important;
     scale: 1 !important;
     left: 12px !important;
     margin: 0 !important;
   }
+
   .currPlayerLyricsCnt h3 {
     display: none;
   }
+
   .fullScreenLyricsBtn {
     margin-top: -16px;
   }
@@ -350,32 +409,39 @@ main {
   header {
     display: none;
   }
+
   .currPlayerDisplaySectionActive {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
   }
+
   .currPlayerHeader {
     width: 100%;
     justify-content: right;
   }
+
   .currPlayerMiddleCnt,
   .currPlayerMenuCnt {
     display: none;
   }
+
   .currPlayerSongCoverCnt {
     width: 40%;
     height: calc(100% - 50px);
     overflow: hidden;
   }
+
   .currPlayerControlsCnt {
     width: 60%;
     margin-top: auto;
     margin-bottom: 12px;
   }
+
   .extraIcons {
     display: none;
   }
+
   .currPlayerLyricsCnt,
   .aboutArtistCnt {
     width: calc(50% - 12px);
@@ -384,6 +450,7 @@ main {
 
     display: none !important;
   }
+
   .currPlayerLyricsCntActive {
     width: 100%;
   }

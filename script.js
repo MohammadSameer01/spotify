@@ -15,11 +15,19 @@ function greetingTextFunction() {
   } else {
     wish = `day`;
   }
-  greetingsText.innerHTML = `Good ${wish}`;
+
+  let userName = localStorage.getItem("userName");
+
+  if (userName != null) {
+    greetingsText.innerHTML = `Good ${wish} <span>${userName}</span>`;
+  } else {
+    greetingsText.innerHTML = `Spotify`;
+  }
+
   return wish;
 }
 greetingTextFunction();
-
+// 
 function loadHomePageSongs() {
   let songsList = document.createElement("div");
   songsList.setAttribute("class", "songsList");
@@ -161,6 +169,7 @@ boxes.forEach((box) => {
     } else {
       alert("Song not found.");
     }
+    updateVideoBackground();
   });
 });
 
@@ -229,8 +238,9 @@ function updateCurrentPlayerCnt(
   fetchLyricsApi(currentSongName, currentSingerName);
   updateSongTime(playingSong);
   currPlayerSmallSizeBackground();
+  updateVideoBackground();
 }
-
+// 
 function updateSongTime(playingSong) {
   function updateDuration() {
     let totalTime = document.querySelector(".totalTime");
@@ -409,7 +419,11 @@ function currPlayerBackgroundColor() {
       "currPlayerDisplaySectionActive"
     )
   ) {
-    themeColorFunc(color1);
+    if (videoSongs.includes(nowPlaying.songTitle)) {
+      themeColorFunc('#000');
+    } else {
+      themeColorFunc(color1);
+    }
   }
 }
 
@@ -707,6 +721,7 @@ let fullScreenLyricsBtn = document.querySelector(".fullScreenLyricsBtn");
 fullScreenLyricsBtn.addEventListener("click", lyricsFullScreen);
 let hideLyricsCntSvgCnt = document.querySelector(".hideLyricsCntSvgCnt");
 hideLyricsCntSvgCnt.addEventListener("click", hideLyricsFullScreen);
+let aboutArtistCnt = document.querySelector('.aboutArtistCnt')
 
 function lyricsFullScreen() {
   fullScreenLyricsBtn.style.display = "none";
@@ -714,6 +729,7 @@ function lyricsFullScreen() {
   let currPlayerLyricsCnt = document.querySelector(".currPlayerLyricsCnt");
   // currPlayerLyricsCnt.style.transform = "translateY(-100%)";
   currPlayerLyricsCnt.style.scale = "0";
+  aboutArtistCnt.classList.add("aboutArtistCntHide");
   setTimeout(() => {
     currPlayerLyricsCnt.classList.add("currPlayerLyricsCntActive");
     // currPlayerLyricsCnt.style.transform = "";
@@ -755,6 +771,8 @@ function lyricsFullScreen() {
 }
 function hideLyricsFullScreen() {
   fullScreenLyricsBtn.style.display = "";
+  aboutArtistCnt.classList.remove("aboutArtistCntHide");
+
 
   let currPlayerLyricsCnt = document.querySelector(".currPlayerLyricsCnt");
   currPlayerLyricsCnt.style.transform = "translateY(100%)";
@@ -941,3 +959,77 @@ themeChangerCnt.addEventListener("click", () => {
 document.querySelector(".logoContainer").addEventListener("click", () => {
   window.location.href = "";
 });
+// 
+// 
+function checkUserName() {
+  const storedName = localStorage.getItem("userName");
+  const modal = document.getElementById("nameModal");
+  const input = document.querySelector(".modal-content input");
+  const button = document.querySelector(".modal-content button");
+  const message = document.querySelector(".modal-content p");
+
+  if (!storedName) {
+    modal.style.display = "flex";
+    document.body.style.overflow = "hidden";
+    // Reset modal state
+    input.style.display = 'block';
+    button.style.display = 'inline-block';
+    input.value = '';
+    message.textContent = "Enter your username...";
+  }
+}
+
+function saveUserName() {
+  const input = document.getElementById("userNameInput");
+  const name = input.value.trim();
+  const button = document.getElementById("saveNameBtn");
+  const messageDisplayer = document.querySelector("#nameModal > div > p")
+  if (name && name.length !== 0) {
+    if (name.length <= 15) {
+      localStorage.setItem("userName", name);
+      const message = document.querySelector(".modal-content p");
+      message.innerHTML = `<b>${name}</b> — your name has been saved successfully!`;
+      document.querySelector('.modal-content input').style.display = 'none';
+      document.querySelector('.modal-content button').style.display = 'none';
+
+      setTimeout(() => {
+        const modal = document.getElementById("nameModal");
+        modal.classList.add("hide");
+        setTimeout(() => {
+          modal.style.display = "none";
+          modal.classList.remove("hide");
+        }, 300);
+
+        document.body.style.overflow = "auto";
+        button.innerText = 'Save';
+        input.value = '';
+        button.disabled = false;
+      }, 1200);
+      greetingTextFunction();
+    } else {
+      messageDisplayer.innerText = `Name cannot exceed more than 15 characters`;
+      messageDisplayer.style.color = 'red'
+      button.innerText = "Save";
+      button.disabled = false;
+      setTimeout(() => {
+        messageDisplayer.innerText = 'Try again with new username not exceeding 15 characters...';
+        messageDisplayer.style.color = '';
+      }, 2000);
+    }
+  } else {
+    messageDisplayer.textContent = 'Re-try again with another username'
+    input.value = '';
+    button.disabled = false;
+    button.innerText = 'Save';
+  }
+}
+
+// ✅ Attach the click listener only once
+document.getElementById("saveNameBtn").addEventListener("click", (event) => {
+  const button = event.target;
+  button.disabled = true;
+  button.innerText = 'Saving...';
+  setTimeout(saveUserName, 600);
+});
+
+window.addEventListener("load", checkUserName);
