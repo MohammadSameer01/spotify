@@ -695,27 +695,54 @@ async function fetchWikiImage(artistName) {
 }
 
 async function fetchLyricsApi(songName, singerName) {
+  const accessToken = "31ilcEJC4QhIDJC44Bb7675ItTQCXRAbdeXmqYtLYlbu5iiuLL_Xq5yJm_Poc56_866dCVppyiggDIzPTf_EcA";
   singerName = singerName.split(",");
-  firstSinger = singerName[0];
-  let apiUrl = `https://api.lyrics.ovh/v1/${firstSinger}/${songName}`;
-  //
+  const firstSinger = singerName[0];
+
+  const searchUrl = `https://api.genius.com/search?q=${encodeURIComponent(songName + " " + firstSinger)}`;
+
   let currPlayerLyricsCnt = document.querySelector(".currPlayerLyricsCnt");
   let lyricsCnt = document.querySelector(".lyricsCnt");
 
   try {
-    let response = await fetch(apiUrl);
-    let data = await response.json();
+    // Search for the song on Genius
+    const searchResponse = await fetch(searchUrl, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+    const searchData = await searchResponse.json();
 
-    if (data.lyrics) {
-      currPlayerLyricsCnt.style.display = "flex";
-      lyricsCnt.innerHTML = data.lyrics.replace(/\n/g, "<br>");
+    if (searchData.response.hits.length > 0) {
+      const songPath = searchData.response.hits[0].result.path;
+      const lyricsPageUrl = `https://genius.com${songPath}`;
+
+      // Fetch lyrics page HTML
+      const lyricsPageResponse = await fetch(lyricsPageUrl);
+      const lyricsPageText = await lyricsPageResponse.text();
+
+      // Extract lyrics using regex
+      const lyricsMatch = lyricsPageText.match(/<div class="Lyrics__Container[^>]*">([\s\S]*?)<\/div>/g);
+
+      if (lyricsMatch) {
+        const lyrics = lyricsMatch
+          .map(l => l.replace(/<br\s*\/?>/gi, "\n").replace(/<[^>]+>/g, "").trim())
+          .join("\n");
+
+        currPlayerLyricsCnt.style.display = "flex";
+        lyricsCnt.innerHTML = lyrics.replace(/\n/g, "<br>");
+      } else {
+        currPlayerLyricsCnt.style.display = "none";
+      }
     } else {
       currPlayerLyricsCnt.style.display = "none";
     }
   } catch (error) {
-    console.error("Error fetching lyrics:", error);
+    console.error("Error fetching lyrics from Genius:", error);
+    currPlayerLyricsCnt.style.display = "none";
   }
 }
+
 
 let fullScreenLyricsBtn = document.querySelector(".fullScreenLyricsBtn");
 fullScreenLyricsBtn.addEventListener("click", lyricsFullScreen);
