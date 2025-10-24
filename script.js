@@ -695,54 +695,27 @@ async function fetchWikiImage(artistName) {
 }
 
 async function fetchLyricsApi(songName, singerName) {
-  const accessToken = "31ilcEJC4QhIDJC44Bb7675ItTQCXRAbdeXmqYtLYlbu5iiuLL_Xq5yJm_Poc56_866dCVppyiggDIzPTf_EcA";
   singerName = singerName.split(",");
-  const firstSinger = singerName[0];
-
-  const searchUrl = `https://api.genius.com/search?q=${encodeURIComponent(songName + " " + firstSinger)}`;
-
+  firstSinger = singerName[0];
+  let apiUrl = `https://api.lyrics.ovh/v1/${firstSinger}/${songName}`;
+  //
   let currPlayerLyricsCnt = document.querySelector(".currPlayerLyricsCnt");
   let lyricsCnt = document.querySelector(".lyricsCnt");
 
   try {
-    // Search for the song on Genius
-    const searchResponse = await fetch(searchUrl, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    });
-    const searchData = await searchResponse.json();
+    let response = await fetch(apiUrl);
+    let data = await response.json();
 
-    if (searchData.response.hits.length > 0) {
-      const songPath = searchData.response.hits[0].result.path;
-      const lyricsPageUrl = `https://genius.com${songPath}`;
-
-      // Fetch lyrics page HTML
-      const lyricsPageResponse = await fetch(lyricsPageUrl);
-      const lyricsPageText = await lyricsPageResponse.text();
-
-      // Extract lyrics using regex
-      const lyricsMatch = lyricsPageText.match(/<div class="Lyrics__Container[^>]*">([\s\S]*?)<\/div>/g);
-
-      if (lyricsMatch) {
-        const lyrics = lyricsMatch
-          .map(l => l.replace(/<br\s*\/?>/gi, "\n").replace(/<[^>]+>/g, "").trim())
-          .join("\n");
-
-        currPlayerLyricsCnt.style.display = "flex";
-        lyricsCnt.innerHTML = lyrics.replace(/\n/g, "<br>");
-      } else {
-        currPlayerLyricsCnt.style.display = "none";
-      }
+    if (data.lyrics) {
+      currPlayerLyricsCnt.style.display = "flex";
+      lyricsCnt.innerHTML = data.lyrics.replace(/\n/g, "<br>");
     } else {
       currPlayerLyricsCnt.style.display = "none";
     }
   } catch (error) {
-    console.error("Error fetching lyrics from Genius:", error);
-    currPlayerLyricsCnt.style.display = "none";
+    console.error("Error fetching lyrics:", error);
   }
 }
-
 
 let fullScreenLyricsBtn = document.querySelector(".fullScreenLyricsBtn");
 fullScreenLyricsBtn.addEventListener("click", lyricsFullScreen);
@@ -1060,3 +1033,177 @@ document.getElementById("saveNameBtn").addEventListener("click", (event) => {
 });
 
 window.addEventListener("load", checkUserName);
+
+// 
+// 
+// 
+const footerIconsCnt = document.querySelectorAll(".footerIconsCnt > div");
+footerIconsCnt.forEach((footerButton) => {
+  footerButton.addEventListener("click", function () {
+    switch (this.id) {
+      case "search-footer-icon":
+        searchInterfaceFunction();
+        break;
+      case "library-footer-icon":
+        libraryInterfaceFunction();
+        break;
+      case "premium-footer-icon":
+        premiumInterfaceFunction();
+        break;
+      case "home-footer-icon":
+        if (isSearchActive === true) {
+          closeSearchInterface();
+        } else if (isLibraryActive === true) {
+          closeLibraryInterface()
+        } else if (isPremiumActive === true) {
+          closePremiumInterface();
+        }
+        document.body.style.overflow = '';
+        document.querySelector("main").style.visibility = `visible`;
+        document.querySelector("main").style.transform = ``;
+        themeColorFunc("");
+        break;
+      default:
+        document.body.style.background = "white"; // fallback
+    }
+  });
+});
+// 
+let isSearchActive = isLibraryActive = isPremiumActive = false;
+// 
+function searchInterfaceFunction() {
+  if (isSearchActive === false) {
+    let searchContainer = document.createElement("div")
+    searchContainer.setAttribute("class", "searchContainer");
+    // 
+    const searchCntHeader = document.createElement("h2")
+    searchCntHeader.setAttribute("class", "searchContainerHeading")
+    searchCntHeader.textContent = "Search"
+    // 
+    const searchBar = document.createElement("input");
+    searchBar.setAttribute("type", 'search');
+    searchBar.setAttribute("placeholder", 'What do you want to listen to?');
+    searchBar.setAttribute("class", "searchInput");
+    // 
+    const dummyImage = document.createElement("img");
+    dummyImage.setAttribute("src", "assets/img/searchImageOne.png");
+    dummyImage.setAttribute("loading", "lazy")
+    // 
+    searchContainer.append(searchCntHeader, searchBar, dummyImage)
+    document.body.append(searchContainer);
+    // 
+    isSearchActive = true;
+    addMainTransition();
+    closePremiumInterface();
+    closeLibraryInterface();
+
+    themeColorFunc("#121212");
+  }
+}
+function libraryInterfaceFunction() {
+  if (isLibraryActive === false) {
+    let libraryContainer = document.createElement("div")
+    libraryContainer.setAttribute("class", "libraryContainer");
+    // 
+    const message = document.createElement("p");
+    message.setAttribute("class", "library-message");
+    message.innerHTML = "<div>Nothing here!</div><span>Keep browsing to create your library<span>";
+    // 
+    libraryContainer.append(message);
+    document.body.append(libraryContainer);
+    // 
+    isLibraryActive = true;
+    addMainTransition();
+    closeSearchInterface();
+    closePremiumInterface();
+
+    themeColorFunc("");
+  }
+}
+function premiumInterfaceFunction() {
+  if (isPremiumActive === false) {
+    let premiumContainer = document.createElement("div")
+    premiumContainer.setAttribute("class", "premiumContainer");
+    // 
+    const premiumImageCnt = document.createElement("div");
+    premiumImageCnt.setAttribute("class", "premiumImageCnt");
+    const img = document.createElement('img');
+    img.setAttribute("src", "assets/img/premiumScreenshot.png");
+    img.setAttribute("loading", "lazy");
+    premiumImageCnt.append(img);
+    // 
+    premiumContainer.append(premiumImageCnt);
+    //
+    document.body.append(premiumContainer);
+    // 
+    isPremiumActive = true;
+    addMainTransition();
+    closeSearchInterface();
+    closeLibraryInterface();
+
+    themeColorFunc("#000");
+  }
+}
+// 
+function closeSearchInterface() {
+  if (isSearchActive === true) {
+    let searchCnt = document.querySelector(".searchContainer")
+    searchCnt.style.transform = `translate(-${window.innerWidth}px)`;
+    isSearchActive = false;
+
+    setTimeout(() => {
+      document.body.removeChild(searchCnt)
+    }, 300);
+  }
+}
+function closeLibraryInterface() {
+  if (isLibraryActive === true) {
+    let libraryCnt = document.querySelector(".libraryContainer")
+    libraryCnt.style.transform = `translate(-${window.innerWidth}px)`;
+    isLibraryActive = false;
+
+    setTimeout(() => {
+      document.body.removeChild(libraryCnt)
+    }, 300);
+  }
+}
+function closePremiumInterface() {
+  if (isPremiumActive === true) {
+    let premiumCnt = document.querySelector(".premiumContainer")
+    premiumCnt.style.transform = `translate(-${window.innerWidth}px)`;
+    isPremiumActive = false;
+
+    setTimeout(() => {
+      document.body.removeChild(premiumCnt)
+    }, 300);
+  }
+}
+// 
+function addMainTransition() {
+  document.body.style.overflow = 'hidden';
+  document.querySelector("main").style.visibility = 'hidden';
+  document.querySelector("main").style.transform = `translateX(-${window.innerWidth}px)`;
+}
+// 
+// 
+// Listen for orientation change or resize event
+window.addEventListener("orientationchange", handleOrientationChange);
+window.addEventListener("resize", handleOrientationChange);
+function handleOrientationChange() {
+  // Check current orientation
+  const isHorizontal = window.matchMedia("(orientation: landscape)").matches;
+
+  // If horizontal and any flag is true, reload the page
+  if (isHorizontal && (isSearchActive || isLibraryActive || isPremiumActive)) {
+    location.reload();
+  }
+}
+// 
+// Set the CSS variable to the current window width
+function updateFooterAnimationStart() {
+  const root = document.documentElement;
+  document.documentElement.style.setProperty('--footer-start-x', `${window.innerWidth}px`);
+}
+updateFooterAnimationStart();
+window.addEventListener('resize', updateFooterAnimationStart);
+

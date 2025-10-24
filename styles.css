@@ -10,6 +10,8 @@
 
   --ffPoppins: "Poppins", serif;
   --ffDMSans: "DM Sans", serif;
+
+  --footer-start-x: 0;
 }
 
 * {
@@ -39,6 +41,10 @@ body {
   background: var(--bodyBgOnTouchMove);
   height: 100vh;
   overflow: hidden;
+}
+
+main {
+  transition: all .3s ease;
 }
 
 header {
@@ -105,6 +111,7 @@ header {
   padding: 6px 12px;
   align-content: center;
   background: linear-gradient(transparent, var(--backgroundColor) 75%);
+  z-index: 1;
 }
 
 .footerSongActiveStyles {
@@ -159,6 +166,8 @@ header {
   visibility: hidden;
   cursor: pointer;
   color: white;
+
+  z-index: 1;
 }
 
 .currentPlayerCntActive {
@@ -221,6 +230,8 @@ header {
   visibility: hidden;
   background: #121212;
   color: #fff;
+
+  z-index: 2 !important;
 }
 
 #currPlayerDisplaySection svg {
@@ -802,4 +813,110 @@ header {
   top: 0;
   left: 0;
   z-index: -1;
+}
+
+/*  */
+/*  */
+/*  */
+
+.searchContainer {
+  height: 100vh;
+  width: 100vw;
+  background: #121212;
+  position: fixed;
+  top: 0;
+  left: 0;
+  animation: footerItemTransition .3s ease;
+  transition: .3s ease;
+}
+
+.searchContainerHeading {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  padding: 12px;
+}
+
+.searchInput {
+  width: calc(100% - 24px);
+  margin-left: 12px;
+  font-size: 1em;
+  padding: 16px;
+  border: unset;
+  background: white;
+  font-weight: 600;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.searchContainer img {
+  width: 100%;
+}
+
+/*  */
+.libraryContainer {
+  height: 100dvh;
+  width: 100vw;
+  background: var(--backgroundColor);
+  position: fixed;
+  top: 0;
+  left: 0;
+  animation: footerItemTransition .3s ease;
+  transition: .3s ease;
+}
+
+.library-message {
+  font-size: 2.5em;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  width: 80%;
+  text-align: center;
+  color: var(--greenColorOne);
+  line-height: .75em;
+}
+
+.library-message span {
+  font-size: 16px !important;
+  font-weight: normal;
+  color: white;
+}
+
+
+
+/*  */
+
+.premiumContainer {
+  height: 100vh;
+  width: 100vw;
+  background: var(--backgroundColor);
+  position: fixed;
+  top: 0;
+  left: 0;
+  animation: footerItemTransition .3s ease;
+  transition: .3s ease;
+}
+
+.premiumImageCnt {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+.premiumImageCnt img {
+  width: 100%;
+
+}
+
+@keyframes footerItemTransition {
+  0% {
+    transform: translateX(var(--footer-start-x));
+
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }

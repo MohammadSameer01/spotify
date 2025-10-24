@@ -1,6 +1,15 @@
 function updateVideoBackground() {
-    // List of songs that have video backgrounds
+    // Only run on mobile devices
+    if (!/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        restoreSongCover();
+        return;
+    }
 
+    // Only run in portrait mode
+    if (window.matchMedia("(orientation: portrait)").matches === false) {
+        restoreSongCover();
+        return;
+    }
 
     // Remove any existing video background and gradient if present
     const existingVideoBg = currPlayerDisplaySection.querySelector('.videoBgCnt');
@@ -17,12 +26,9 @@ function updateVideoBackground() {
         const videoBackground = document.createElement('video');
         videoBackground.classList.add('videoBgCnt');
 
-        // Use the matched song name to create the video src path
-        // Assuming your video files are named exactly as the song title with no spaces or special chars
-        // So you might want to sanitize the song title to match your file naming
-        const sanitizedFileName = matchedSong.replace(/[^a-zA-Z0-9]/g, '') + '.mp4'; // Removes spaces and special chars
+        // Sanitize filename
+        const sanitizedFileName = matchedSong.replace(/[^a-zA-Z0-9]/g, '') + '.mp4';
         videoBackground.src = 'assets/videos/' + sanitizedFileName;
-        console.log(sanitizedFileName)
 
         videoBackground.autoplay = true;
         videoBackground.loop = true;
@@ -38,26 +44,34 @@ function updateVideoBackground() {
 
         // Hide the song cover
         const songCover = currPlayerDisplaySection.querySelector(".currPlayerSongCoverCnt");
-        if (songCover) {
-            songCover.style.visibility = 'hidden';
-        }
+        if (songCover) songCover.style.visibility = 'hidden';
 
         videoBackground.classList.add('videoBackgroundActive');
     } else {
-        // Show the song cover if video is removed
-        const songCover = currPlayerDisplaySection.querySelector(".currPlayerSongCoverCnt");
-        if (songCover) {
-            songCover.style.visibility = '';
-        }
-
-        // Remove video and gradient if they exist
-        const existingVideoBg = currPlayerDisplaySection.querySelector('.videoBgCnt');
-        if (existingVideoBg) existingVideoBg.remove();
-
-        const existingGradient = currPlayerDisplaySection.querySelector('.videoBgGradient');
-        if (existingGradient) existingGradient.remove();
+        restoreSongCover();
     }
 }
+
+// Helper function to restore cover and remove video
+function restoreSongCover() {
+    const songCover = currPlayerDisplaySection.querySelector(".currPlayerSongCoverCnt");
+    if (songCover) songCover.style.visibility = '';
+
+    const existingVideoBg = currPlayerDisplaySection.querySelector('.videoBgCnt');
+    if (existingVideoBg) existingVideoBg.remove();
+
+    const existingGradient = currPlayerDisplaySection.querySelector('.videoBgGradient');
+    if (existingGradient) existingGradient.remove();
+}
+window.addEventListener("orientationchange", () => {
+    // Re-run the function on orientation change
+    setTimeout(() => {
+        updateVideoBackground();
+    }, 100); // slight delay to allow rotation layout to settle
+});
+// 
+// 
+// 
 const videoSongs = [
     'Saiyaara',
     'Saiyaara Reprise - Female',
@@ -66,5 +80,13 @@ const videoSongs = [
     'Lovely',
     'Hymn for the Weekend',
     'Skyfall',
-    'On My Way'
+    'On My Way',
+    'Let Me Love You',
+    'Senorita',
+    'See You Again',
+    'FRIENDS',
+    'No Lie',
+    'Cheap Thrills',
+    'GOAT',
+    'Malang'
 ];

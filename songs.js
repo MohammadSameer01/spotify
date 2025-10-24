@@ -47,8 +47,8 @@ let songsObject = {
     songCover: `https://c.saavncdn.com/273/Encore-English-2016-20190419221937-500x500.jpg`,
     themeColor: `#6C797E,black`,
   },
-  señorita: {
-    songTitle: `Señorita`,
+  senorita: {
+    songTitle: `Senorita`,
     singer: `Shawn Mendes,Camila Cabello`,
     songCover: `https://c.saavncdn.com/624/Se-orita-English-2019-20190822022326-500x500.jpg`,
     themeColor: `#B01820,black`,
