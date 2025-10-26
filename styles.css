@@ -226,7 +226,7 @@ header {
   top: 0;
   padding: 12px;
   transition: 0.3s ease;
-  transform: translate(0, 90%);
+  transform: translate(0, 100%);
   visibility: hidden;
   background: #121212;
   color: #fff;

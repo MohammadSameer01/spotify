@@ -170,6 +170,10 @@ boxes.forEach((box) => {
       alert("Song not found.");
     }
     updateVideoBackground();
+    currentAudio.addEventListener("ended", () => {
+      songChangeAnimationRight();
+      playNextSong();
+    });
   });
 });
 
@@ -459,7 +463,7 @@ currPlayerDropDownCnt.addEventListener("click", () => {
   document.body.classList.remove("bodyStylesAdd");
   setTimeout(() => {
     currentPlayerCnt.classList.add("currentPlayerCntActive");
-  }, 200);
+  }, 300);
 });
 //
 //
@@ -475,47 +479,40 @@ currPlayerDropDownCnt.addEventListener("click", () => {
 //
 //
 
-function changeSongFunction() {
+function playNextSong(currentIndex) {
   let songs = Object.keys(songsObject);
-  const randomKey = songs[Math.floor(Math.random() * songs.length)];
+  currentIndex = songs.findIndex(
+    key => songsObject[key].songTitle === nowPlaying.songTitle
+  );
 
-  // unusable variables
-  let newSongCheck = songsObject[randomKey];
-  // newSongCheck = newSongCheck.songAudio;
-  // newSongCheck = newSongCheck.split("/").pop();
-  let prevSong = currentAudio.src;
-  prevSong = prevSong.split("/").pop();
-  //
-  //
-  if (newSongCheck !== prevSong) {
-    if (currentAudio && !currentAudio.paused) {
-      currentAudio.pause();
-      currentAudio.currentTime = 0; // Reset audio to start from the beginning
+  // Move to next index (loop back to start if at the end)
+  let nextIndex = (currentIndex + 1) % songs.length;
+  const nextKey = songs[nextIndex];
+  let newSong = songsObject[nextKey];
 
-      currentSong = songsObject[randomKey];
-
-      let sanitizedSongTitle = currentSong.songTitle;
-      sanitizedSongTitle = sanitizedSongTitle.replace(/\s+/g, "");
-      const currentAudioUrl = `assets/songs/${sanitizedSongTitle}.mp3`;
-      currentAudio = new Audio(currentAudioUrl);
-
-      nowPlaying = currentSong;
-      // Listen for the 'canplaythrough' event before playing
-      currentAudio.addEventListener("canplaythrough", () => {
-        currentAudio.play();
-        //
-        isPlaying = true;
-        updatePlayIcon();
-      });
-      currPlayerDetailsVisibility();
-      updateSongTime(currentAudio);
-    }
-  } else {
-    changeSongFunction();
+  if (currentAudio && !currentAudio.paused) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
   }
-  //
+
+  currentSong = newSong;
+  nowPlaying = newSong;
+
+  let sanitizedSongTitle = currentSong.songTitle.replace(/\s+/g, "");
+  const currentAudioUrl = `assets/songs/${sanitizedSongTitle}.mp3`;
+
+  currentAudio = new Audio(currentAudioUrl);
+
+  currentAudio.addEventListener("canplaythrough", () => {
+    currentAudio.play();
+    isPlaying = true;
+    updatePlayIcon();
+  });
+
+  currPlayerDetailsVisibility();
+  updateSongTime(currentAudio);
+
   setTimeout(() => {
-    // Update the current player (or UI) with the new song details
     updateCurrentPlayerCnt(
       currentSong.songTitle,
       currentSong.singer,
@@ -527,20 +524,103 @@ function changeSongFunction() {
     currPlayerBackgroundColor();
     songBoxStyling();
   }, 300);
-  //
+
   showSongNotification(nowPlaying, currentAudio);
   hideLyricsFullScreen();
-}
 
+  currentAudio.addEventListener("ended", () => {
+    songChangeAnimationRight();
+    playNextSong();
+  });
+}
+function playPreviousSong() {
+  // Get all songs
+  let songs = Object.keys(songsObject);
+
+  // Find the currently playing song index
+  let currentIndex = songs.findIndex(
+    key => songsObject[key].songTitle === nowPlaying.songTitle
+  );
+
+  // 🧠 Check how long the current song has been playing
+  if (currentAudio && currentAudio.currentTime >= 10) {
+    // If the song has played for 10s or more, just restart it
+    currentAudio.currentTime = 0;
+    currentAudio.play(); // restart playback
+    isPlaying = true;
+    updatePlayIcon();
+    return; // Stop the function here (don’t change songs)
+  }
+
+  // Otherwise, go to the previous song (loop to last if at start)
+  let prevIndex = (currentIndex - 1 + songs.length) % songs.length;
+  const prevKey = songs[prevIndex];
+  let newSong = songsObject[prevKey];
+
+  // Stop and reset the current audio
+  if (currentAudio && !currentAudio.paused) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+  }
+
+  // Update song state
+  currentSong = newSong;
+  nowPlaying = newSong;
+
+  // Sanitize song title to create the file URL
+  let sanitizedSongTitle = currentSong.songTitle.replace(/\s+/g, "");
+  const currentAudioUrl = `assets/songs/${sanitizedSongTitle}.mp3`;
+
+  // Create and prepare new Audio
+  currentAudio = new Audio(currentAudioUrl);
+
+  // When the audio can play, start it
+  currentAudio.addEventListener("canplaythrough", () => {
+    currentAudio.play();
+    isPlaying = true;
+    updatePlayIcon();
+  });
+
+  // Update UI and player state
+  currPlayerDetailsVisibility();
+  updateSongTime(currentAudio);
+
+  // Slight delay before updating visual details
+  setTimeout(() => {
+    updateCurrentPlayerCnt(
+      currentSong.songTitle,
+      currentSong.singer,
+      currentSong.songCover,
+      currentAudio,
+      currentSong.isLiked
+    );
+    updatePageTitle();
+    currPlayerBackgroundColor();
+    songBoxStyling();
+  }, 300);
+
+  // Show notification and reset lyric screen
+  showSongNotification(nowPlaying, currentAudio);
+  hideLyricsFullScreen();
+
+  // When this song ends, play the next one
+  currentAudio.addEventListener("ended", () => {
+    songChangeAnimationRight();
+    playNextSong();
+  });
+}
 let changeSongClass = document.querySelectorAll(".changeSongClass");
 changeSongClass.forEach((btn) => {
   btn.addEventListener("click", () => {
-    changeSongFunction();
 
     if (btn.classList.contains("leftSongChangeButton")) {
-      songChangeAnimationLeft();
+      if (currentAudio.currentTime <= 10) {
+        songChangeAnimationLeft();
+      }
+      playPreviousSong();
     } else {
       songChangeAnimationRight();
+      playNextSong();
     }
   });
 });
@@ -1058,6 +1138,15 @@ footerIconsCnt.forEach((footerButton) => {
         } else if (isPremiumActive === true) {
           closePremiumInterface();
         }
+
+        // ✅ Remove all search, library, and premium containers (only if they exist)
+        const uiContainers = document.querySelectorAll(".libraryContainer, .premiumContainer, .searchContainer");
+
+        if (uiContainers.length > 0) {
+          uiContainers.forEach(el => el.remove());
+        }
+
+
         document.body.style.overflow = '';
         document.querySelector("main").style.visibility = `visible`;
         document.querySelector("main").style.transform = ``;
@@ -1150,10 +1239,6 @@ function closeSearchInterface() {
     let searchCnt = document.querySelector(".searchContainer")
     searchCnt.style.transform = `translate(-${window.innerWidth}px)`;
     isSearchActive = false;
-
-    setTimeout(() => {
-      document.body.removeChild(searchCnt)
-    }, 300);
   }
 }
 function closeLibraryInterface() {
@@ -1161,21 +1246,13 @@ function closeLibraryInterface() {
     let libraryCnt = document.querySelector(".libraryContainer")
     libraryCnt.style.transform = `translate(-${window.innerWidth}px)`;
     isLibraryActive = false;
-
-    setTimeout(() => {
-      document.body.removeChild(libraryCnt)
-    }, 300);
   }
 }
 function closePremiumInterface() {
   if (isPremiumActive === true) {
     let premiumCnt = document.querySelector(".premiumContainer")
     premiumCnt.style.transform = `translate(-${window.innerWidth}px)`;
-    isPremiumActive = false;
-
-    setTimeout(() => {
-      document.body.removeChild(premiumCnt)
-    }, 300);
+    isPremiumActive = false
   }
 }
 // 
@@ -1206,4 +1283,6 @@ function updateFooterAnimationStart() {
 }
 updateFooterAnimationStart();
 window.addEventListener('resize', updateFooterAnimationStart);
+
+
 

@@ -72,7 +72,7 @@ currPlayerDisplaySection.addEventListener("touchend", () => {
       hideLyricsFullScreen();
       setTimeout(() => {
         currentPlayerCnt.classList.add("currentPlayerCntActive");
-      }, 200);
+      }, 300);
     }
 
     currPlayerDisplaySection.style.top = "0px"; // Reset position
@@ -130,7 +130,7 @@ if (currentPlayerCnt) {
     // Only trigger action if swipe was right to left AND exceeded the threshold
     if (totalX < -SWIPE_MIN_DISTANCE) {
       navigator.vibrate(25);
-      changeSongFunction();
+      playNextSong();
       setTimeout(themeColorFunc, 300);
     }
 
@@ -174,7 +174,7 @@ window.addEventListener("popstate", (event) => {
     hideLyricsFullScreen();
     setTimeout(() => {
       currentPlayerCnt.classList.add("currentPlayerCntActive");
-    }, 200);
+    }, 300);
 
     // Push the state again so back gesture doesn't exit the app
     history.pushState({ page: "custom", scrollY: scrollPosition }, "", "");
