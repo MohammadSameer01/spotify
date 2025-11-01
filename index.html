@@ -42,7 +42,7 @@
     </div>
   </header>
   <!--  -->
-  <main>
+  <main role="main">
     <section class="listsSection">
       <div class="listsContainer">
         <div class="list">
@@ -89,19 +89,7 @@
     <section class="songsListSection">
       <h3>Today's Top Hits</h3>
       <div class="songsList">
-        <!-- <div class="song">
-            <div class="songImgCnt">
-              <img
-                src="https://i.scdn.co/image/ab67616d0000b2731a8c4618eda885a406958dd0"
-                alt="Cover image for the song Cheques by Shubh"
-                class="songImage"
-              />
-            </div>
-            <div class="songInfoCnt">
-              <div class="songTitle">Cheques</div>
-              <div class="singerTitle">Shubh</div>
-            </div>
-          </div> -->
+        <!-- Songs will be dynamically added here -->
       </div>
     </section>
   </main>
@@ -229,7 +217,7 @@
             </path>
           </svg>
         </div>
-        <div class="audioControlIcon smallSizeIcon repeatSongBtn">
+        <div class="audioControlIcon smallSizeIcon">
           <svg data-encore-id="icon" role="img" aria-hidden="true" class="e-9640-icon" viewBox="0 0 24 24">
             <path
               d="M6 2a5 5 0 0 0-5 5v8a5 5 0 0 0 5 5h1v-2H6a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-4.798l1.298-1.298a1 1 0 1 0-1.414-1.414L9.373 19l3.713 3.712a1 1 0 0 0 1.414-1.414L13.202 20H18a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5H6z">
@@ -310,8 +298,8 @@
     </div>
   </section>
   <!--  -->
-  <section id="fixedFooter">
-    <div class="footerIconsCnt">
+  <section id="fixedFooter" role="group">
+    <div class="footerIconsCnt" role="navigation" aria-label="Footer Navigation">
       <div class="footerIcon" id="home-footer-icon">
         <svg data-encore-id="icon" role="img" aria-hidden="true" class="e-9640-icon" viewBox="0 0 24 24">
           <path

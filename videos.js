@@ -45,7 +45,6 @@ function updateVideoBackground() {
         // Hide the song cover
         const songCover = currPlayerDisplaySection.querySelector(".currPlayerSongCoverCnt");
         if (songCover) songCover.style.visibility = 'hidden';
-
         videoBackground.classList.add('videoBackgroundActive');
     } else {
         restoreSongCover();

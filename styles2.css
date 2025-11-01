@@ -309,6 +309,13 @@ main {
   .videoBackgroundActive {
     display: none;
   }
+
+  .alert-container {
+    left: unset;
+    right: 24px;
+    width: calc(40% - 27px);
+    bottom: calc(78px + 58px + 2px);
+  }
 }
 
 @media (min-width: 768px) and (max-height: 590px) {

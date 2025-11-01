@@ -74,9 +74,18 @@ function createSongBox(
 ) {
   let song = document.createElement("div");
   song.setAttribute("class", "song");
-  song.setAttribute("songPath", songAddress); //parameterThree
+  song.setAttribute("role", `group`);
+  song.setAttribute("aria-label", `${songName} by ${singerName}`);
+  song.setAttribute("tabindex", "0"); // makes it focusable
+  song.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault(); // Prevent default action like scrolling
+      song.click(); // Trigger the click event
+    }
+  });
   //
   let songImgCnt = document.createElement("div");
+  songImgCnt.setAttribute("aria-hidden", "true");
   songImgCnt.setAttribute("class", "songImgCnt");
   //
   let img = document.createElement("img");
@@ -109,6 +118,8 @@ function createSongBox(
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"/></svg>
    `;
   threeDots.setAttribute("class", "threeDotsClass");
+  threeDots.setAttribute("role", "button");
+  threeDots.setAttribute("aria-label", `Options for ${songName} by ${singerName}`);
   song.append(threeDots);
 
   let songsList = document.querySelector(".songsList");
@@ -993,7 +1004,6 @@ function toggleSongLike() {
       }
     }
   });
-  console.log(songsObject);
 }
 
 function likedSongIconStyles(like) {
@@ -1283,6 +1293,104 @@ function updateFooterAnimationStart() {
 }
 updateFooterAnimationStart();
 window.addEventListener('resize', updateFooterAnimationStart);
+// 
+// 
+// 
+function showAlert(message, duration = 2000) {
+  // Ensure a container exists for stacking
+  let container = document.querySelector('.alert-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.className = 'alert-container';
+    document.body.appendChild(container);
+  }
 
+  // 🧠 NEW: Remove any existing alerts before showing a new one
+  const existingAlert = container.querySelector('.alert-message');
+  if (existingAlert) {
+    existingAlert.remove();
+  }
 
+  const alertDiv = document.createElement('div');
+  alertDiv.className = 'alert-message';
+  alertDiv.textContent = message;
 
+  container.appendChild(alertDiv);
+
+  // Force reflow so transition works
+  requestAnimationFrame(() => {
+    alertDiv.style.opacity = '1';
+    alertDiv.style.transform = 'translateX(0)';
+  });
+
+  // Swipe to dismiss (touch)
+  let startX = 0;
+  let currentX = 0;
+  let isDragging = false;
+
+  alertDiv.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+    alertDiv.style.transition = 'none';
+  });
+
+  alertDiv.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    currentX = e.touches[0].clientX - startX;
+    alertDiv.style.transform = `translateX(${currentX}px)`;
+  });
+
+  alertDiv.addEventListener('touchend', () => {
+    isDragging = false;
+    alertDiv.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+
+    if (Math.abs(currentX) > 60) {
+      // Dismiss
+      const direction = currentX > 0 ? '100%' : '-100%';
+      alertDiv.style.transform = `translateX(${direction})`;
+      alertDiv.style.opacity = '0';
+      setTimeout(() => {
+        alertDiv.remove();
+        adjustAlertPositions();
+      }, 300);
+    } else {
+      // Reset
+      alertDiv.style.transform = 'translateX(0)';
+    }
+  });
+
+  // Auto-remove after duration
+  const timer = setTimeout(() => {
+    alertDiv.style.opacity = '0';
+    setTimeout(() => {
+      alertDiv.remove();
+      adjustAlertPositions();
+    }, 300);
+  }, duration);
+
+  // Adjust layout when alert is removed
+  alertDiv.addEventListener('transitionend', () => {
+    if (!container.contains(alertDiv)) {
+      clearTimeout(timer);
+    }
+  });
+
+  adjustAlertPositions();
+}
+
+// Update positions of all alerts
+function adjustAlertPositions() {
+  const alerts = document.querySelectorAll('.alert-message');
+  alerts.forEach((alert, index) => {
+    alert.style.top = `${index * 70}px`; // stack with spacing
+  });
+}
+//
+//
+// 
+const threeDotsClass = document.querySelectorAll(".threeDotsClass");
+threeDotsClass.forEach((element) => {
+  element.addEventListener("click", () => {
+    showAlert("Upgrade your plan to access all features.", 1500);
+  })
+})

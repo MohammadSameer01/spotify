@@ -920,3 +920,42 @@ header {
     transform: translateX(0);
   }
 }
+
+/*  */
+/*  */
+/*  */
+/* Optional: some simple styling for the alert */
+.alert-container {
+  position: fixed;
+  left: 50%;
+  display: flex;
+  flex-direction: column-reverse;
+  /* Newest on bottom */
+  align-items: center;
+  z-index: 1;
+  pointer-events: none;
+  /* Let clicks pass through */
+
+  bottom: calc(70px + 58px);
+  left: 8px;
+  width: calc(100% - 16px);
+}
+
+.alert-message {
+  min-width: 100%;
+  max-width: 100%;
+  background: #fff;
+  color: #000;
+  padding: 16px 20px;
+  border-radius: 6px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  user-select: none;
+  touch-action: pan-y;
+  pointer-events: auto;
+  /* Allow touch on alert */
+  margin-bottom: 2px;
+  font-size: .85em;
+  backdrop-filter: blur(12px);
+}
